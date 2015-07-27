@@ -1,10 +1,7 @@
-package br.lucasPereira.devedoresDaReceita;
+package br.lucasPereira.devedoresDaReceita.robos;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,10 +13,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class DevedoresDaReceita {
+import br.lucasPereira.devedoresDaReceita.Coleta;
+import br.lucasPereira.devedoresDaReceita.ContrutorDeEntradaDeLog;
+import br.lucasPereira.devedoresDaReceita.Devedor;
+import br.lucasPereira.devedoresDaReceita.EntradaDeLog;
+import br.lucasPereira.devedoresDaReceita.EscritorDeColeta;
+import br.lucasPereira.devedoresDaReceita.Log;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.Configuracoes;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.Dorminhoco;
+
+public class ColetorDeDevedoresDaReceita {
 
 	public static void main(String[] argumentos) {
-		new DevedoresDaReceita();
+		new ColetorDeDevedoresDaReceita();
 	}
 
 	private Log log;
@@ -28,7 +34,7 @@ public class DevedoresDaReceita {
 	private List<Devedor> devedores;
 	private Configuracoes configuracoes;
 
-	public DevedoresDaReceita() {
+	public ColetorDeDevedoresDaReceita() {
 		log = new Log();
 		devedores = new LinkedList<>();
 		configuracoes = new Configuracoes();
@@ -127,16 +133,10 @@ public class DevedoresDaReceita {
 
 	private void persistirColeta() {
 		System.out.println("Persistindo coleta.");
-		try {
-			FileOutputStream arquivo = new FileOutputStream(configuracoes.obterArquivoDeColeta());
-			ObjectOutputStream saida = new ObjectOutputStream(arquivo);
-			saida.writeObject(new Coleta(faixaDeValores, devedores, log));
-			saida.close();
-		} catch (FileNotFoundException excecao) {
-			excecao.printStackTrace();
-		} catch (IOException excecao) {
-			excecao.printStackTrace();
-		}
+		Coleta coleta = new Coleta(faixaDeValores, devedores, log);
+		String nomeDoArquivo = configuracoes.obterArquivoDeColeta();
+		EscritorDeColeta escritor = new EscritorDeColeta(nomeDoArquivo);
+		escritor.salvarColeta(coleta);
 	}
 
 	private void persistirDevedores() {

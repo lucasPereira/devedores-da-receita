@@ -1,4 +1,4 @@
-package br.lucasPereira.devedoresDaReceita;
+package br.lucasPereira.devedoresDaReceita.infraestrutura;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
