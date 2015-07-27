@@ -1,27 +1,27 @@
-package br.lucasPereira.devedoresDaReceita;
+package br.lucasPereira.devedoresDaReceita.coletas.devedores;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Log implements Iterable<EntradaDeLog>, Serializable {
+public class LogDeDevedores implements Iterable<EntradaDeLogDeDevedores>, Serializable {
 
 	private static final long serialVersionUID = 508387131534645735L;
 
-	private List<EntradaDeLog> entradas;
+	private List<EntradaDeLogDeDevedores> entradas;
 
-	public Log() {
+	public LogDeDevedores() {
 		entradas = new LinkedList<>();
 	}
 
-	public void adicionarEntrada(ContrutorDeEntradaDeLog construtorDeEntradaDeLog) {
+	public void adicionarEntrada(ContrutorDeEntradaDeLogDeDevedores construtorDeEntradaDeLog) {
 		construtorDeEntradaDeLog.naPagina(entradas.size() + 1);
 		entradas.add(construtorDeEntradaDeLog.construir());
 	}
 
 	@Override
-	public Iterator<EntradaDeLog> iterator() {
+	public Iterator<EntradaDeLogDeDevedores> iterator() {
 		return entradas.iterator();
 	}
 

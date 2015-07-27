@@ -1,17 +1,19 @@
-package br.lucasPereira.devedoresDaReceita;
+package br.lucasPereira.devedoresDaReceita.coletas.devedores;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class Coleta implements Serializable {
+import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
+
+public class ColetaDeDevedores implements Serializable {
 
 	private static final long serialVersionUID = -3524332189543598469L;
 
 	private String faixaDeValores;
 	private List<Devedor> devedores;
-	private Log log;
+	private LogDeDevedores log;
 
-	public Coleta(String faixaDeValores, List<Devedor> devedores, Log log) {
+	public ColetaDeDevedores(String faixaDeValores, List<Devedor> devedores, LogDeDevedores log) {
 		this.faixaDeValores = faixaDeValores;
 		this.devedores = devedores;
 		this.log = log;
@@ -25,7 +27,7 @@ public class Coleta implements Serializable {
 		return faixaDeValores;
 	}
 
-	public Log obterLog() {
+	public LogDeDevedores obterLog() {
 		return log;
 	}
 

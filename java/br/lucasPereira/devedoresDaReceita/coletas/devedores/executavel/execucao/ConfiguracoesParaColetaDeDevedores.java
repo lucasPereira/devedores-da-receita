@@ -1,10 +1,10 @@
-package br.lucasPereira.devedoresDaReceita.infraestrutura;
+package br.lucasPereira.devedoresDaReceita.coletas.devedores.executavel.execucao;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class Configuracoes {
+public class ConfiguracoesParaColetaDeDevedores {
 
 	public String obterUriDaPaginaComDevedores() {
 		return "https://www2.pgfn.fazenda.gov.br/ecac/contribuinte/devedores/listaDevedores.jsf;jsessionid=6FFC570043A5DD4EC6672AE4D48D6EB7.app1";
@@ -66,28 +66,28 @@ public class Configuracoes {
 		return "listaDevedoresForm:captchaMessage";
 	}
 
-	public String obterArquivoDeDevedores() {
+	public String obterArquivoCsvDeColetaDeDevedores() {
 		GregorianCalendar calendario = new GregorianCalendar();
 		SimpleDateFormat formatoDeData = new SimpleDateFormat("Y-MM-dd");
 		SimpleDateFormat formatoDeHora = new SimpleDateFormat("HH:mm");
 		Date agora = calendario.getTime();
-		return String.format("csv/devedores_%s_%s.csv", formatoDeData.format(agora), formatoDeHora.format(agora));
+		return String.format("csv/coleta_devedores_%s_%s.csv", formatoDeData.format(agora), formatoDeHora.format(agora));
 	}
 
-	public String obterArquivoDeLog() {
+	public String obterArquivoCsvDeLogDeColetaDeDevedores() {
 		GregorianCalendar calendario = new GregorianCalendar();
 		SimpleDateFormat formatoDeData = new SimpleDateFormat("Y-MM-dd");
 		SimpleDateFormat formatoDeHora = new SimpleDateFormat("HH:mm");
 		Date agora = calendario.getTime();
-		return String.format("csv/log_%s_%s.csv", formatoDeData.format(agora), formatoDeHora.format(agora));
+		return String.format("csv/coleta_devedores_log_%s_%s.csv", formatoDeData.format(agora), formatoDeHora.format(agora));
 	}
 
-	public String obterArquivoDeColeta() {
+	public String obterArquivoDeColetaDeDevedores() {
 		GregorianCalendar calendario = new GregorianCalendar();
 		SimpleDateFormat formatoDeData = new SimpleDateFormat("Y-MM-dd");
 		SimpleDateFormat formatoDeHora = new SimpleDateFormat("HH:mm");
 		Date agora = calendario.getTime();
-		return String.format("ser/coleta_%s_%s.ser", formatoDeData.format(agora), formatoDeHora.format(agora));
+		return String.format("ser/coleta_devedores_%s_%s.ser", formatoDeData.format(agora), formatoDeHora.format(agora));
 	}
 
 }

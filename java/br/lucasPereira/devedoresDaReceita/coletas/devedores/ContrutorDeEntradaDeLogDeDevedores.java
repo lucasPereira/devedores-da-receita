@@ -1,15 +1,15 @@
-package br.lucasPereira.devedoresDaReceita;
+package br.lucasPereira.devedoresDaReceita.coletas.devedores;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class ContrutorDeEntradaDeLog {
+public class ContrutorDeEntradaDeLogDeDevedores {
 
 	private Integer quantidadeDeDevedores;
 	private List<Integer> quantidadesDeColunas;
 	private Integer pagina;
 
-	public ContrutorDeEntradaDeLog() {
+	public ContrutorDeEntradaDeLogDeDevedores() {
 		quantidadeDeDevedores = 0;
 		quantidadesDeColunas = new LinkedList<>();
 	}
@@ -28,8 +28,8 @@ public class ContrutorDeEntradaDeLog {
 
 	}
 
-	public EntradaDeLog construir() {
-		return new EntradaDeLog(pagina, quantidadeDeDevedores, quantidadesDeColunas);
+	public EntradaDeLogDeDevedores construir() {
+		return new EntradaDeLogDeDevedores(pagina, quantidadeDeDevedores, quantidadesDeColunas);
 	}
 
 }

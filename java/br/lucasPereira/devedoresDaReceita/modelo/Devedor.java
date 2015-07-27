@@ -1,4 +1,4 @@
-package br.lucasPereira.devedoresDaReceita;
+package br.lucasPereira.devedoresDaReceita.modelo;
 
 import java.io.Serializable;
 

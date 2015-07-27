@@ -1,4 +1,4 @@
-package br.lucasPereira.devedoresDaReceita.robos;
+package br.lucasPereira.devedoresDaReceita.coletas.devedores.executavel.execucao;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,31 +13,30 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import br.lucasPereira.devedoresDaReceita.Coleta;
-import br.lucasPereira.devedoresDaReceita.ContrutorDeEntradaDeLog;
-import br.lucasPereira.devedoresDaReceita.Devedor;
-import br.lucasPereira.devedoresDaReceita.EntradaDeLog;
-import br.lucasPereira.devedoresDaReceita.EscritorDeColeta;
-import br.lucasPereira.devedoresDaReceita.Log;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.Configuracoes;
+import br.lucasPereira.devedoresDaReceita.coletas.devedores.ColetaDeDevedores;
+import br.lucasPereira.devedoresDaReceita.coletas.devedores.ContrutorDeEntradaDeLogDeDevedores;
+import br.lucasPereira.devedoresDaReceita.coletas.devedores.EntradaDeLogDeDevedores;
+import br.lucasPereira.devedoresDaReceita.coletas.devedores.EscritorDeColetaDeDevedores;
+import br.lucasPereira.devedoresDaReceita.coletas.devedores.LogDeDevedores;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.Dorminhoco;
+import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 
-public class ColetorDeDevedoresDaReceita {
+public class ColetorDeDevedores {
 
 	public static void main(String[] argumentos) {
-		new ColetorDeDevedoresDaReceita();
+		new ColetorDeDevedores();
 	}
 
-	private Log log;
+	private LogDeDevedores log;
 	private String faixaDeValores;
 	private FirefoxDriver selenium;
 	private List<Devedor> devedores;
-	private Configuracoes configuracoes;
+	private ConfiguracoesParaColetaDeDevedores configuracoes;
 
-	public ColetorDeDevedoresDaReceita() {
-		log = new Log();
+	public ColetorDeDevedores() {
+		log = new LogDeDevedores();
 		devedores = new LinkedList<>();
-		configuracoes = new Configuracoes();
+		configuracoes = new ConfiguracoesParaColetaDeDevedores();
 		faixaDeValores = configuracoes.obterValorDaFaixaDeValoresAcimaDeDezMilhoes();
 		acessarPagina();
 		buscar();
@@ -118,7 +117,7 @@ public class ColetorDeDevedoresDaReceita {
 		By seletorCorpoTabelaDevedores = By.id(configuracoes.obterIdentificadorDoCorpoTabelaDevedores());
 		WebElement corpoTabelaDevedores = selenium.findElement(seletorCorpoTabelaDevedores);
 		List<WebElement> linhasDevedores = corpoTabelaDevedores.findElements(By.tagName("tr"));
-		ContrutorDeEntradaDeLog contrutorDeEntradaDeLog = new ContrutorDeEntradaDeLog();
+		ContrutorDeEntradaDeLogDeDevedores contrutorDeEntradaDeLog = new ContrutorDeEntradaDeLogDeDevedores();
 		contrutorDeEntradaDeLog.comDevedores(linhasDevedores.size());
 		for (WebElement linhaDevedor : linhasDevedores) {
 			List<WebElement> colunasDevedor = linhaDevedor.findElements(By.tagName("td"));
@@ -133,16 +132,16 @@ public class ColetorDeDevedoresDaReceita {
 
 	private void persistirColeta() {
 		System.out.println("Persistindo coleta.");
-		Coleta coleta = new Coleta(faixaDeValores, devedores, log);
-		String nomeDoArquivo = configuracoes.obterArquivoDeColeta();
-		EscritorDeColeta escritor = new EscritorDeColeta(nomeDoArquivo);
+		ColetaDeDevedores coleta = new ColetaDeDevedores(faixaDeValores, devedores, log);
+		String nomeDoArquivo = configuracoes.obterArquivoDeColetaDeDevedores();
+		EscritorDeColetaDeDevedores escritor = new EscritorDeColetaDeDevedores(nomeDoArquivo);
 		escritor.salvarColeta(coleta);
 	}
 
 	private void persistirDevedores() {
 		System.out.println("Persistindo devedores.");
 		try {
-			FileWriter escritor = new FileWriter(configuracoes.obterArquivoDeDevedores());
+			FileWriter escritor = new FileWriter(configuracoes.obterArquivoCsvDeColetaDeDevedores());
 			for (Devedor devedor : devedores) {
 				String cpf = devedor.obterCpf();
 				String nome = devedor.obterNome();
@@ -159,8 +158,8 @@ public class ColetorDeDevedoresDaReceita {
 	private void persistirLog() {
 		System.out.println("Imprimindo log.");
 		try {
-			FileWriter escritor = new FileWriter(configuracoes.obterArquivoDeLog());
-			for (EntradaDeLog entradaDeLog : log) {
+			FileWriter escritor = new FileWriter(configuracoes.obterArquivoCsvDeLogDeColetaDeDevedores());
+			for (EntradaDeLogDeDevedores entradaDeLog : log) {
 				Integer pagina = entradaDeLog.obterPagina();
 				Integer quantidadeDeDevedores = entradaDeLog.obterQuantidadeDeDevedores();
 				String quantidadesDeColunas = entradaDeLog.obterQuantidadesDeColunas().toString();

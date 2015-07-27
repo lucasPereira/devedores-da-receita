@@ -1,9 +1,9 @@
-package br.lucasPereira.devedoresDaReceita;
+package br.lucasPereira.devedoresDaReceita.coletas.devedores;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class EntradaDeLog implements Serializable {
+public class EntradaDeLogDeDevedores implements Serializable {
 
 	private static final long serialVersionUID = -9195925265656730987L;
 
@@ -11,7 +11,7 @@ public class EntradaDeLog implements Serializable {
 	private Integer quantidadeDeDevedores;
 	private List<Integer> quantidadesDeColunas;
 
-	public EntradaDeLog(Integer pagina, Integer quantidadeDeDevedores, List<Integer> quantidadesDeColunas) {
+	public EntradaDeLogDeDevedores(Integer pagina, Integer quantidadeDeDevedores, List<Integer> quantidadesDeColunas) {
 		this.pagina = pagina;
 		this.quantidadeDeDevedores = quantidadeDeDevedores;
 		this.quantidadesDeColunas = quantidadesDeColunas;
