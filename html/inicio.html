@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html>
+<head>
+<title>SNCR - Sistema Nacional de Cadastro Rural</title>
+</head>
+<body>
+
+	<span id="hiddenpath" style="display: none;">/sncr-web</span>
+
+	<div id="superWrapper">
+
+		<div id="logoTituloPrint" style="display: none;">
+			<img src="/sncr-web/img/logo-incra.png" />
+		</div>
+		<div id="j_idt24"></div>
+		<div id="j_idt25"
+			class="ui-dialog ui-widget ui-widget-content ui-overlay-hidden ui-corner-all ui-shadow">
+			<div class="ui-dialog-content ui-widget-content">
+				<img src="/sncr-web/img/ajaxloadingbar.gif" />
+			</div>
+		</div>
+		<div id="j_idt27"
+			class="ui-dialog ui-widget ui-widget-content ui-overlay-hidden ui-corner-all ui-shadow">
+			<div class="ui-dialog-content ui-widget-content">
+				<img src="/sncr-web/img/ajaxloadingbar.gif" />
+			</div>
+		</div>
+
+		<div id="main">
+			<div id="bodyWrapper">
+				<div id="header">
+					<div id="j_idt31"
+						class="ui-panel ui-widget ui-widget-content ui-corner-all panelHeader">
+						<div id="j_idt31_content"
+							class="ui-panel-content ui-widget-content">
+							<div class="clearfix headerWrapper">
+
+								<div id="logoTitulo">
+									<img src="/sncr-web/img/sncr.png" class="logo" /><br />
+									<h1 class="nomeSistema">Sistema Nacional de Cadastro Rural</h1>
+								</div>
+								<form id="formCabecalho" name="formCabecalho" method="get"
+									action="consulta.html"
+									enctype="application/x-www-form-urlencoded">
+									<input type="hidden" name="formCabecalho" value="formCabecalho" />
+
+									<div id="loginInfo">
+										<div id="bt-logout">
+											<button id="j_idt49" name="j_idt49"
+												class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
+												onclick="return verificarAlteracaoFormulario();"
+												type="submit">
+												<span class="ui-button-icon-left ui-icon ui-c ui-icon-power"></span><span
+													class="ui-button-text ui-c">Sair</span>
+											</button>
+										</div>
+										<div id="username">Ol� Emerson Luis Schmidt
+											(460.903.550-20)</div>
+										<div id="mensagemSistema" style="color: brown">
+											<span style="display: block">Data/Hora para fechamento
+												do SNCR: <b>14/07/2015 20:00:00</b>
+											</span><span style="display: block">Tempo restante para
+												fechamento do SNCR: <b>7 hs 54 mins 6 seg</b>
+											</span>
+										</div>
+										<span id="panelEscondidoEncerrarSistema">
+											<a id="lnkEscondidoEncerrarSistema" href="#"
+											onclick="jsf.util.chain(this,event,'ocultarDialogCarregando();','mojarra.jsfcljs(document.getElementById(\'formCabecalho\'),{\'lnkEscondidoEncerrarSistema\':\'lnkEscondidoEncerrarSistema\'},\'\')');return false"></a></span>
+
+									</div>
+									<input type="hidden" name="javax.faces.ViewState"
+										id="javax.faces.ViewState"
+										value="-3869922890885320209:1772637993793049931"
+										autocomplete="off" />
+								</form>
+							</div>
+							<div class="menuWrapper">
+								<form id="form" name="form" method="get" action="consulta.html"
+									enctype="application/x-www-form-urlencoded">
+									<input type="hidden" name="form" value="form" />
+									<div id="form:menubar"
+										class="ui-menu ui-menubar ui-widget ui-widget-content ui-corner-all ui-helper-clearfix"
+										role="menubar">
+										<ul class="ui-menu-list ui-helper-reset">
+											<li id="form:smMENU_PAGINA_INICIAL"
+												class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+												role="menuitem" aria-haspopup="true"><a
+												href="javascript:void(0)"
+												class="ui-menuitem-link ui-corner-all"><span
+													class="ui-menuitem-text">P�gina Inicial</span><span
+													class="ui-icon ui-icon-triangle-1-s"></span></a>
+											<ul
+													class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+													role="menu">
+													<li class="ui-menuitem ui-widget ui-corner-all"
+														role="menuitem"><a
+														id="form:MENU_PAGINA_INICIAL__PAGINA_INICIAL"
+														class="ui-menuitem-link ui-corner-all"
+														href="/sncr-web/private/pages/consultarDeclaracao.jsf"><span
+															class="ui-menuitem-text">P�gina Inicial</span></a></li>
+												</ul></li>
+											<li id="form:smMENU_CONTA_CORRENTE"
+												class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+												role="menuitem" aria-haspopup="true"><a
+												href="javascript:void(0)"
+												class="ui-menuitem-link ui-corner-all"><span
+													class="ui-menuitem-text">Conta Corrente</span><span
+													class="ui-icon ui-icon-triangle-1-s"></span></a>
+											<ul
+													class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+													role="menu">
+													<li id="form:smMENU_CONTA_CORRENTE__EXTRATO_IMOVEL"
+														class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+														role="menuitem" aria-haspopup="true"><a
+														href="javascript:void(0)"
+														class="ui-menuitem-link ui-corner-all"><span
+															class="ui-menuitem-text">Extrato do Im�vel</span><span
+															class="ui-icon ui-icon-triangle-1-e"></span></a>
+													<ul
+															class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+															role="menu">
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_CONTA_CORRENTE__EXTRATO_IMOVEL__CONSULTAR_LANC"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/conta-corrente/extrato-imovel/consultarLancamento.jsf"><span
+																	class="ui-menuitem-text">Consultar Lan�amentos</span></a></li>
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_CONTA_CORRENTE__EXTRATO_IMOVEL__CONSULTAR_CERT"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/conta-corrente/extrato-imovel/consultarCcir.jsf"><span
+																	class="ui-menuitem-text">Consultar Certificados</span></a></li>
+														</ul></li>
+												</ul></li>
+											<li id="form:smMENU_CONSULTA"
+												class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+												role="menuitem" aria-haspopup="true"><a
+												href="javascript:void(0)"
+												class="ui-menuitem-link ui-corner-all"><span
+													class="ui-menuitem-text">Consulta</span><span
+													class="ui-icon ui-icon-triangle-1-s"></span></a>
+											<ul
+													class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+													role="menu">
+													<li class="ui-menuitem ui-widget ui-corner-all"
+														role="menuitem"><a
+														id="form:MENU_CONSULTA__ESPELHO_DO_IMOVEL_RURAL"
+														class="ui-menuitem-link ui-corner-all"
+														href="/sncr-web/private/pages/espelho/consultar_espelho_imovel.jsf"><span
+															class="ui-menuitem-text">Espelho do Im�vel Rural</span></a></li>
+													<li id="form:smMENU_CONSULTA__ACOMPANHAMENTO_GERENCIAL"
+														class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+														role="menuitem" aria-haspopup="true"><a
+														href="javascript:void(0)"
+														class="ui-menuitem-link ui-corner-all"><span
+															class="ui-menuitem-text">Acompanhamento Gerencial</span><span
+															class="ui-icon ui-icon-triangle-1-e"></span></a>
+													<ul
+															class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+															role="menu">
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_CONSULTA__ACOMPANHAMENTO_GERENCIAL__DOSSIE_DO_IMOVEL_RURAL"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/dossie/dossie_imovel_rural.jsf"><span
+																	class="ui-menuitem-text">Dossi� do Im�vel Rural</span></a></li>
+														</ul></li>
+												</ul></li>
+											<li id="form:smMENU_SISNATE"
+												class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+												role="menuitem" aria-haspopup="true"><a
+												href="javascript:void(0)"
+												class="ui-menuitem-link ui-corner-all"><span
+													class="ui-menuitem-text">SISNATE</span><span
+													class="ui-icon ui-icon-triangle-1-s"></span></a>
+											<ul
+													class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+													role="menu">
+													<li id="form:smMENU_SISNATE__CONSULTA_DE_PROCESSOS"
+														class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+														role="menuitem" aria-haspopup="true"><a
+														href="javascript:void(0)"
+														class="ui-menuitem-link ui-corner-all"><span
+															class="ui-menuitem-text">Consulta de Processos</span><span
+															class="ui-icon ui-icon-triangle-1-e"></span></a>
+													<ul
+															class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+															role="menu">
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_SISNATE__CONSULTA_DE_PROCESSOS__POR_SR"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/sisnate_consulta_processo.jsf"><span
+																	class="ui-menuitem-text">Por SR</span></a></li>
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_SISNATE__CONSULTA_DE_PROCESSOS__POR_PARAMETROS"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/sisnate_consulta_processo_parametro.jsf"><span
+																	class="ui-menuitem-text">Por Par�metros</span></a></li>
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_SISNATE__CONSULTA_DE_PROCESSOS__HSTORICO_DOS_PROCESSO"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/sisnate_consulta_processo_historico.jsf"><span
+																	class="ui-menuitem-text">Hist�rico do Processo</span></a></li>
+														</ul></li>
+													<li
+														id="form:smMENU_SISNATE__CONSULTA_DE_PESSOAS_ESTRANGEIRAS"
+														class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+														role="menuitem" aria-haspopup="true"><a
+														href="javascript:void(0)"
+														class="ui-menuitem-link ui-corner-all"><span
+															class="ui-menuitem-text">Consulta de Pessoas
+																Estrangeiras</span><span class="ui-icon ui-icon-triangle-1-e"></span></a>
+													<ul
+															class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+															role="menu">
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_SISNATE__CONSULTA_DE_PESSOAS_ESTRANGEIRAS__POR_MUNICIPIO"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/sisnate_consulta_estrangeiros_municipio.jsf"><span
+																	class="ui-menuitem-text">Por Munic�pio</span></a></li>
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_SISNATE__CONSULTA_DE_PESSOAS_ESTRANGEIRAS__POR_NACIONALIDADE_E_UF"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/sisnate_consulta_estrangeiros_nacionalidade.jsf"><span
+																	class="ui-menuitem-text">Por Nacionalidade e UF</span></a></li>
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_SISNATE__CONSULTA_DE_PESSOAS_ESTRANGEIRAS__POR_TIPO"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/sisnate_consulta_pessoas.jsf"><span
+																	class="ui-menuitem-text">Por Tipo</span></a></li>
+															<li class="ui-menuitem ui-widget ui-corner-all"
+																role="menuitem"><a
+																id="form:MENU_SISNATE__CONSULTA_DE_PESSOAS_ESTRANGEIRAS__POR_TIPO_E_SUPERINTENDENCIA"
+																class="ui-menuitem-link ui-corner-all"
+																href="/sncr-web/private/pages/sisnate_consulta_estrangeiros_tipo_sr.jsf"><span
+																	class="ui-menuitem-text">Por Tipo e
+																		Superintend�ncia</span></a></li>
+														</ul></li>
+												</ul></li>
+											<li id="form:smMENU_GERENCIA"
+												class="ui-widget ui-menuitem ui-corner-all ui-menu-parent"
+												role="menuitem" aria-haspopup="true"><a
+												href="javascript:void(0)"
+												class="ui-menuitem-link ui-corner-all"><span
+													class="ui-menuitem-text">Ger�ncia</span><span
+													class="ui-icon ui-icon-triangle-1-s"></span></a>
+											<ul
+													class="ui-widget-content ui-menu-list ui-corner-all ui-helper-clearfix ui-menu-child ui-shadow"
+													role="menu">
+													<li class="ui-menuitem ui-widget ui-corner-all"
+														role="menuitem"><a
+														id="form:MENU_GERENCIA__SOBRE_O_SISTEMA"
+														class="ui-menuitem-link ui-corner-all"
+														href="/sncr-web/private/pages/sobre.jsf"><span
+															class="ui-menuitem-text">Sobre o Sistema</span></a></li>
+												</ul></li>
+										</ul>
+									</div>
+									<input type="hidden" name="javax.faces.ViewState"
+										id="javax.faces.ViewState"
+										value="-3869922890885320209:1772637993793049931"
+										autocomplete="off" />
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="divBody"
+					class="ui-panel ui-widget ui-widget-content ui-corner-all panelBody">
+					<div id="divBody_content"
+						class="ui-panel-content ui-widget-content">
+						<div id="messagesError" class="ui-messages ui-widget"
+							aria-live="polite"></div>
+						<div id="messagesInfo" class="ui-messages ui-widget"
+							aria-live="polite"></div>
+
+						<div id="divWarning"></div>
+
+						<div id="title">
+							<h2>Consultar Declara��o</h2>
+						</div>
+
+						<div id="innerWrapper">
+							<div class="clearfix" style="width: 100%">
+								<form id="formConsultarDeclaracao"
+									name="formConsultarDeclaracao" method="get"
+									action="consulta.html"
+									enctype="application/x-www-form-urlencoded">
+									<input type="hidden" name="formConsultarDeclaracao"
+										value="formConsultarDeclaracao" />
+
+									<div class="onerow">
+										<div class="col12 last">
+											<fieldset id="formConsultarDeclaracao:fieldsetFiltro"
+												class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable">
+												<legend
+													class="ui-fieldset-legend ui-corner-all ui-state-default">
+													<span
+														class="ui-fieldset-toggler ui-icon ui-icon-minusthick"></span>Filtros
+													de Consulta
+												</legend>
+												<div class="ui-fieldset-content">
+
+													<div class="onerow">
+														<div class="col3">
+															<label id="formConsultarDeclaracao:label-sr"
+																class="ui-outputlabel">SR</label><select
+																id="formConsultarDeclaracao:select-sr"
+																name="formConsultarDeclaracao:select-sr"
+																class="select-160" size="1"
+																onchange="PrimeFaces.ab({source:this,event:'change',process:'formConsultarDeclaracao:select-sr',update:'formConsultarDeclaracao:select-municipio'}, arguments[1]);">
+																<option selected="selected">Selecione...</option>
+																<option value="11">SR 10 - Santa Catarina</option>
+															</select>
+														</div>
+
+														<div class="col3">
+															<label id="formConsultarDeclaracao:label-municipio"
+																class="ui-outputlabel">Munic�pio</label><select
+																id="formConsultarDeclaracao:select-municipio"
+																name="formConsultarDeclaracao:select-municipio"
+																class="select-160" size="1">
+																<option selected="selected">Selecione...</option>
+															</select>
+														</div>
+
+														<div class="col2">
+															<label id="formConsultarDeclaracao:label-cpf-analista"
+																class="ui-outputlabel">CPF do Analista</label><input
+																id="formConsultarDeclaracao:cpf-analista"
+																name="formConsultarDeclaracao:cpf-analista" type="text"
+																size="15"
+																class="ui-inputfield ui-inputmask ui-widget ui-state-default ui-corner-all" />
+														</div>
+													</div>
+
+													<div class="onerow">
+														<span id="formConsultarDeclaracao:panelGroupCpf">
+															<div class="col3">
+																<label
+																	id="formConsultarDeclaracao:label-cpf-cnpj-titular"
+																	class="ui-outputlabel">CPF/CNPJ do Titular</label><input
+																	id="formConsultarDeclaracao:input-filtro-cpf-cnpj-titular"
+																	name="formConsultarDeclaracao:input-filtro-cpf-cnpj-titular"
+																	type="text" maxlength="14" size="15"
+																	class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all numerico" />
+															</div>
+															<div class="col3">
+																<label id="formConsultarDeclaracao:label-codigo-imovel"
+																	class="ui-outputlabel">C�digo do Im�vel</label><input
+																	id="formConsultarDeclaracao:input-mask-codigo-imovel"
+																	name="formConsultarDeclaracao:input-mask-codigo-imovel"
+																	type="text"
+																	class="ui-inputfield ui-inputmask ui-widget ui-state-default ui-corner-all" />
+															</div>
+															<div class="col2">
+																<label id="formConsultarDeclaracao:label-numero-recibo"
+																	class="ui-outputlabel">N�mero do Recibo</label><input
+																	id="formConsultarDeclaracao:input-filtro-numero-recibo"
+																	name="formConsultarDeclaracao:input-filtro-numero-recibo"
+																	type="text" maxlength="14" size="15"
+																	class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all numerico" />
+															</div>
+														</span>
+													</div>
+
+													<div class="onerow">
+														<div class="col12">
+															<label
+																id="formConsultarDeclaracao:label-situacao-declaracao"
+																class="ui-outputlabel">Situa��o da Declara��o</label>
+															<table
+																id="formConsultarDeclaracao:pickListSituacaoDeclaracao"
+																class="ui-picklist ui-widget">
+																<tbody>
+																	<tr>
+																		<td><ul
+																				class="ui-widget-content ui-picklist-list ui-picklist-source ui-corner-all">
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="2"
+																					data-item-label="Com Pend�ncias">Com
+																					Pend�ncias</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="3" data-item-label="Em An�lise">Em
+																					An�lise</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="4" data-item-label="Processada">Processada</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="6"
+																					data-item-label="Enviada Aguardando Documenta��o">Enviada
+																					Aguardando Documenta��o</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="7"
+																					data-item-label="Documenta��o Recebida pelo INCRA">Documenta��o
+																					Recebida pelo INCRA</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="8"
+																					data-item-label="Documenta��o Recebida pelo Analista Respons�vel">Documenta��o
+																					Recebida pelo Analista Respons�vel</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="9" data-item-label="Rejeitada">Rejeitada</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="10"
+																					data-item-label="Reenviada Aguardando Documenta��o">Reenviada
+																					Aguardando Documenta��o</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="11"
+																					data-item-label="Em Preenchimento pelo INCRA">Em
+																					Preenchimento pelo INCRA</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="12"
+																					data-item-label="Em Preenchimento / Em An�lise">Em
+																					Preenchimento / Em An�lise</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="13" data-item-label="Rean�lise">Rean�lise</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="14"
+																					data-item-label="Rejeitada por Decurso de Prazo">Rejeitada
+																					por Decurso de Prazo</li>
+																				<li class="ui-picklist-item ui-corner-all"
+																					data-item-value="15"
+																					data-item-label="Enviada Aguardando Processamento">Enviada
+																					Aguardando Processamento</li>
+																			</ul>
+																			<select
+																			id="formConsultarDeclaracao:pickListSituacaoDeclaracao_source"
+																			name="formConsultarDeclaracao:pickListSituacaoDeclaracao_source"
+																			multiple="true" class="ui-helper-hidden"></select></td>
+																		<td><button type="button"
+																				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-picklist-button-add"
+																				title="Add">
+																				<span
+																					class="ui-button-icon-left ui-icon ui-c ui-icon ui-icon-arrow-1-e"></span><span
+																					class="ui-button-text ui-c">ui-button</span>
+																			</button>
+																			<button type="button"
+																				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-picklist-button-add-all"
+																				title="Add All">
+																				<span
+																					class="ui-button-icon-left ui-icon ui-c ui-icon ui-icon-arrowstop-1-e"></span><span
+																					class="ui-button-text ui-c">ui-button</span>
+																			</button>
+																			<button type="button"
+																				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-picklist-button-remove"
+																				title="Remove">
+																				<span
+																					class="ui-button-icon-left ui-icon ui-c ui-icon ui-icon-arrow-1-w"></span><span
+																					class="ui-button-text ui-c">ui-button</span>
+																			</button>
+																			<button type="button"
+																				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-picklist-button-remove-all"
+																				title="Remove All">
+																				<span
+																					class="ui-button-icon-left ui-icon ui-c ui-icon ui-icon-arrowstop-1-w"></span><span
+																					class="ui-button-text ui-c">ui-button</span>
+																			</button></td>
+																		<td><ul
+																				class="ui-widget-content ui-picklist-list ui-picklist-target ui-corner-all"></ul>
+																			<select
+																			id="formConsultarDeclaracao:pickListSituacaoDeclaracao_target"
+																			name="formConsultarDeclaracao:pickListSituacaoDeclaracao_target"
+																			multiple="true" class="ui-helper-hidden"></select></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+
+													<div class="onerow centralizado">
+														<div class="col12 last">
+															<button id="formConsultarDeclaracao:btFiltrar"
+																name="formConsultarDeclaracao:btFiltrar"
+																class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left botao-100"
+																type="submit">
+																<span
+																	class="ui-button-icon-left ui-icon ui-c ui-icon-search"></span><span
+																	class="ui-button-text ui-c">Pesquisar</span>
+															</button>
+															<button id="formConsultarDeclaracao:btLimpar"
+																name="formConsultarDeclaracao:btLimpar"
+																class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left botao-100 buttonSec"
+																type="submit">
+																<span
+																	class="ui-button-icon-left ui-icon ui-c ui-icon-cancel"></span><span
+																	class="ui-button-text ui-c">Limpar</span>
+															</button>
+														</div>
+													</div>
+												</div>
+												<input type="hidden"
+													id="formConsultarDeclaracao:fieldsetFiltro_collapsed"
+													name="formConsultarDeclaracao:fieldsetFiltro_collapsed"
+													value="false" />
+											</fieldset>
+
+											<div class="onerow msg-alerta">
+												<div class="col12 last"></div>
+											</div>
+
+											<div class="onerow msg-alerta">
+												<div class="col12 last"></div>
+											</div>
+										</div>
+									</div>
+									<span id="formConsultarDeclaracao:scriptToggle">
+									</span><span
+										id="formConsultarDeclaracao:panelEscondidoLinkImprimirRecibo"><a
+										id="formConsultarDeclaracao:lnkEscondidoImprimirRecibo"
+										href="#"
+										onclick="jsf.util.chain(this,event,'ocultarDialogCarregando();','mojarra.jsfcljs(document.getElementById(\'formConsultarDeclaracao\'),{\'formConsultarDeclaracao:lnkEscondidoImprimirRecibo\':\'formConsultarDeclaracao:lnkEscondidoImprimirRecibo\',\'idDeclaracaoRecibo\':\'\'},\'\')');return false"></a></span>
+
+									<!-- Modal de Editar Data de Ci&ecirc;ncia da Notifica&ccedil;&atilde;o de Pend&ecirc;ncia. -->
+									<html xmlns="http://www.w3.org/1999/xhtml"
+										xmlns:i="http://sncr.edp.gov.br/componente-visual">
+<div
+	id="formConsultarDeclaracao:dialogEditarDataCienciaNotificacaoPendencia"
+	class="ui-dialog ui-widget ui-widget-content ui-overlay-hidden ui-corner-all ui-shadow">
+	<div
+		class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top">
+		<span
+			id="formConsultarDeclaracao:dialogEditarDataCienciaNotificacaoPendencia_title"
+			class="ui-dialog-title">Editar Data de Ci�ncia da Notifica��o
+			de Pend�ncia</span><a href="#"
+			class="ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all"><span
+			class="ui-icon ui-icon-closethick"></span></a>
+	</div>
+	<div class="ui-dialog-content ui-widget-content">
+
+		<div id="divCodigoImovelEdicao">C�digo do Im�vel:</div>
+		<div id="formConsultarDeclaracao:panelDataCienciaNotificacaoPendencia"
+			class="ui-panel ui-widget ui-widget-content ui-corner-all panelBorder">
+			<div
+				id="formConsultarDeclaracao:panelDataCienciaNotificacaoPendencia_content"
+				class="ui-panel-content ui-widget-content">
+				<div
+					id="formConsultarDeclaracao:messagesDataCienciaNotificacaoPendencia"
+					class="ui-messages ui-widget" aria-live="polite"></div>
+				<div class="onerow"></div>
+				<label id="formConsultarDeclaracao:j_idt141" class="ui-outputlabel"
+					for="formConsultarDeclaracao:inputDataCienciaNotificacaoPendencia_input">Data
+					de Ci�ncia da Notifica��o de Pend�ncia</label><span
+					id="formConsultarDeclaracao:inputDataCienciaNotificacaoPendencia"
+					class="data"><input
+					id="formConsultarDeclaracao:inputDataCienciaNotificacaoPendencia_input"
+					name="formConsultarDeclaracao:inputDataCienciaNotificacaoPendencia_input"
+					type="text"
+					class="ui-inputfield ui-widget ui-state-default ui-corner-all"
+					maxlength="10" size="10" /></span>
+				<div class="onerow"></div>
+			</div>
+		</div>
+		<div class="panelComando">
+			<button id="formConsultarDeclaracao:btnSalvar"
+				name="formConsultarDeclaracao:btnSalvar"
+				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left botao-100"
+				onclick="ocultarDialogCarregando();;PrimeFaces.ab({source:'formConsultarDeclaracao:btnSalvar',update:'formConsultarDeclaracao:panelDataCienciaNotificacaoPendencia'});return false;"
+				type="submit">
+				<span class="ui-button-icon-left ui-icon ui-c ui-icon-check"></span><span
+					class="ui-button-text ui-c">Salvar</span>
+			</button>
+			<button id="formConsultarDeclaracao:j_idt144"
+				name="formConsultarDeclaracao:j_idt144"
+				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left botao-100 buttonSec"
+				onclick="dialogEditarDataCienciaNotificacaoPendencia.hide();PrimeFaces.ab({source:'formConsultarDeclaracao:j_idt144'});return false;"
+				type="submit">
+				<span class="ui-button-icon-left ui-icon ui-c ui-icon-close"></span><span
+					class="ui-button-text ui-c">Cancelar</span>
+			</button>
+			<button id="formConsultarDeclaracao:j_idt145"
+				name="formConsultarDeclaracao:j_idt145"
+				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left botao-100 buttonSec"
+				onclick="PrimeFaces.ab({source:'formConsultarDeclaracao:j_idt145',process:'formConsultarDeclaracao:j_idt145 formConsultarDeclaracao:panelDataCienciaNotificacaoPendencia',update:'formConsultarDeclaracao:panelDataCienciaNotificacaoPendencia'});return false;"
+				type="submit">
+				<span class="ui-button-icon-left ui-icon ui-c ui-icon-close"></span><span
+					class="ui-button-text ui-c">Limpar</span>
+			</button>
+		</div>
+	</div>
+</div>
+
+									</html>
+									<input type="hidden" name="javax.faces.ViewState"
+										id="javax.faces.ViewState"
+										value="-3869922890885320209:1772637993793049931"
+										autocomplete="off" />
+								</form>
+								<div id="infoObrigatorio">
+									<span class="obrigatorio">Campo(s) obrigat�rio(s)</span>
+								</div>
+							</div>
+						</div>
+
+						<br />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<span class="logoFooter"><img
+			src="/sncr-web/img/logo-incra-footer.png" style="display: none;"
+			class="logoFooterPrint" /> </span>
+		<div class="footerContent">
+			<span>Instituto Nacional de Coloniza��o e Reforma Agr�ria</span><br />
+			�2014 - INCRA - Todos os direitos reservados.
+		</div>
+	</div>
+</body>
+</html>
