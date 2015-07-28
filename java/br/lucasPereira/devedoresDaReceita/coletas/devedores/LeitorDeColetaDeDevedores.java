@@ -1,42 +1,17 @@
 package br.lucasPereira.devedoresDaReceita.coletas.devedores;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import br.lucasPereira.devedoresDaReceita.infraestrutura.FabricaDeLeitorDeObjetos;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.FabricaDeLeitorDeObjetosPadrao;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.Leitor;
 
-public class LeitorDeColetaDeDevedores {
-
-	private String nomeDoArquivo;
-	private FabricaDeLeitorDeObjetos fabricaDeLeitorDeObjetos;
+public class LeitorDeColetaDeDevedores extends Leitor<ColetaDeDevedores> {
 
 	public LeitorDeColetaDeDevedores(String nomeDoArquivo) {
-		this(new FabricaDeLeitorDeObjetosPadrao(), nomeDoArquivo);
+		this(nomeDoArquivo, new FabricaDeLeitorDeObjetosPadrao());
 	}
 
-	public LeitorDeColetaDeDevedores(FabricaDeLeitorDeObjetos fabricaDeLeitorDeObjetos, String nomeDoArquivo) {
-		this.nomeDoArquivo = nomeDoArquivo;
-		this.fabricaDeLeitorDeObjetos = fabricaDeLeitorDeObjetos;
-	}
-
-	public ColetaDeDevedores carregarColeta() {
-		try {
-			FileInputStream arquivo = new FileInputStream(nomeDoArquivo);
-			ObjectInputStream entrada = fabricaDeLeitorDeObjetos.construir(arquivo);
-			ColetaDeDevedores coleta = (ColetaDeDevedores) entrada.readObject();
-			entrada.close();
-			return coleta;
-		} catch (FileNotFoundException excecao) {
-			excecao.printStackTrace();
-		} catch (IOException excecao) {
-			excecao.printStackTrace();
-		} catch (ClassNotFoundException excecao) {
-			excecao.printStackTrace();
-		}
-		return null;
+	public LeitorDeColetaDeDevedores(String nomeDoArquivo, FabricaDeLeitorDeObjetos fabricaDeLeitorDeObjetos) {
+		super(nomeDoArquivo, fabricaDeLeitorDeObjetos);
 	}
 
 }

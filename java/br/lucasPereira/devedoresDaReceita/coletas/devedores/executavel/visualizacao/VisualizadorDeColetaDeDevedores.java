@@ -18,7 +18,7 @@ public class VisualizadorDeColetaDeDevedores {
 	}
 
 	public void visualizar() {
-		ColetaDeDevedores coleta = new LeitorDeColetaDeDevedores(nomeDoArquivo).carregarColeta();
+		ColetaDeDevedores coleta = new LeitorDeColetaDeDevedores(nomeDoArquivo).carregar();
 		System.out.println(coleta.obterFaixaDeValores());
 		System.out.println();
 		for (Devedor devedor : coleta.obterDevedores()) {

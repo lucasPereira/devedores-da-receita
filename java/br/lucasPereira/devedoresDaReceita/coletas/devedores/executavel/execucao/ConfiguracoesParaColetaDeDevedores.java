@@ -14,6 +14,10 @@ public class ConfiguracoesParaColetaDeDevedores {
 		return 10;
 	}
 
+	public Integer obterTempoMaximoDeEsperaDaPaginaEmSegundos() {
+		return 10;
+	}
+
 	public String obterIdentificadorDoRadioFaixaDeValores() {
 		return "listaDevedoresForm:tipoConsultaRadio:1";
 	}
@@ -44,10 +48,6 @@ public class ConfiguracoesParaColetaDeDevedores {
 
 	public String obterIdentificadorDoCorpoTabelaDevedores() {
 		return "listaDevedoresForm:devedoresTable:tb";
-	}
-
-	public Integer obterTempoMaximoDeEsperaDaPaginaEmSegundos() {
-		return 10;
 	}
 
 	public String obterIdentificadorDoPainelDeEspera() {

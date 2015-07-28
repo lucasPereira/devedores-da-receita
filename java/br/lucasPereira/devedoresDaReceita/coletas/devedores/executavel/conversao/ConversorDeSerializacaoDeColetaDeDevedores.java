@@ -20,10 +20,10 @@ public class ConversorDeSerializacaoDeColetaDeDevedores {
 
 	private void converter() {
 		FabricaDeLeitorDeObjetosParaColetaDeDevedores fabricaDeLeitorDeObjetos = new FabricaDeLeitorDeObjetosParaColetaDeDevedores();
-		LeitorDeColetaDeDevedores leitor = new LeitorDeColetaDeDevedores(fabricaDeLeitorDeObjetos, nomeDoArquivo);
+		LeitorDeColetaDeDevedores leitor = new LeitorDeColetaDeDevedores(nomeDoArquivo, fabricaDeLeitorDeObjetos);
 		EscritorDeColetaDeDevedores escritor = new EscritorDeColetaDeDevedores(nomeDoNovoArquivo);
-		ColetaDeDevedores coletaDeDevedores = leitor.carregarColeta();
-		escritor.salvarColeta(coletaDeDevedores);
+		ColetaDeDevedores coletaDeDevedores = leitor.carregar();
+		escritor.salvar(coletaDeDevedores);
 	}
 
 }

@@ -48,6 +48,7 @@ public class ColetorDeDevedores {
 	}
 
 	private void buscar() {
+		System.out.println("Iniciando busca.");
 		do {
 			digitarCaptcha();
 			buscarDevedores();
@@ -55,6 +56,7 @@ public class ColetorDeDevedores {
 	}
 
 	private void coletar() {
+		System.out.println("Iniciando coleta de devedores.");
 		try {
 			do {
 				coletarDevedores();
@@ -90,18 +92,18 @@ public class ColetorDeDevedores {
 		By seletorRadioFaixaDeValores = By.id(configuracoes.obterIdentificadorDoRadioFaixaDeValores());
 		By seletorSelecaoFaixaDeValores = By.id(configuracoes.obterIdentificadorDoSeletorFaixaDeValores());
 		By selecaoBotaoConsultar = By.id(configuracoes.obterIdentificadorDoBotaoConsultar());
-		String valorFaixaDeValoresAcimaDeDuzentosMil = faixaDeValores;
 		WebElement radioFaixaDeValores = selenium.findElement(seletorRadioFaixaDeValores);
 		WebElement selecaoFaixaDeValores = selenium.findElement(seletorSelecaoFaixaDeValores);
 		WebElement botaoConsultar = selenium.findElement(selecaoBotaoConsultar);
 		Select selecao = new Select(selecaoFaixaDeValores);
 		radioFaixaDeValores.click();
-		selecao.selectByValue(valorFaixaDeValoresAcimaDeDuzentosMil);
+		selecao.selectByValue(faixaDeValores);
 		botaoConsultar.click();
 		aguardaPainelDeEsperaSumir();
 	}
 
 	private Boolean existemDevedores() {
+		System.out.println("Verificando se existem mais páginas de devedores.");
 		By seletorTabelaPaginacao = By.id(configuracoes.obterIdentificadorDaTabelaPaginacao());
 		WebElement tabelaPaginacao = selenium.findElement(seletorTabelaPaginacao);
 		List<WebElement> botaoProximaPagina = tabelaPaginacao.findElements(By.className(configuracoes.obterClasseBotaoProximaPagina()));
@@ -114,6 +116,7 @@ public class ColetorDeDevedores {
 	}
 
 	private void coletarDevedores() {
+		System.out.println("Coletando devedores da página.");
 		By seletorCorpoTabelaDevedores = By.id(configuracoes.obterIdentificadorDoCorpoTabelaDevedores());
 		WebElement corpoTabelaDevedores = selenium.findElement(seletorCorpoTabelaDevedores);
 		List<WebElement> linhasDevedores = corpoTabelaDevedores.findElements(By.tagName("tr"));
@@ -135,7 +138,7 @@ public class ColetorDeDevedores {
 		ColetaDeDevedores coleta = new ColetaDeDevedores(faixaDeValores, devedores, log);
 		String nomeDoArquivo = configuracoes.obterArquivoDeColetaDeDevedores();
 		EscritorDeColetaDeDevedores escritor = new EscritorDeColetaDeDevedores(nomeDoArquivo);
-		escritor.salvarColeta(coleta);
+		escritor.salvar(coleta);
 	}
 
 	private void persistirDevedores() {
@@ -180,6 +183,7 @@ public class ColetorDeDevedores {
 	}
 
 	private void aguardaPainelDeEsperaSumir() {
+		System.out.println("Aguardando carragamento concluir.");
 		By seletorPainelDeEspera = By.id(configuracoes.obterIdentificadorDoPainelDeEspera());
 		ExpectedCondition<Boolean> condicaoAguardarPainelDeEsperaSumir = ExpectedConditions.invisibilityOfElementLocated(seletorPainelDeEspera);
 		WebDriverWait seleniumQueAguardaCondicao = new WebDriverWait(selenium, configuracoes.obterTempoMaximoDeEsperaDaPaginaEmSegundos());
