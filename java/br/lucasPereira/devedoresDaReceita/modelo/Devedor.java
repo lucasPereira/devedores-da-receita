@@ -25,24 +25,28 @@ public class Devedor implements Serializable {
 		this.imoveis = imoveis;
 	}
 
-	public String obterValor() {
-		return valor;
-	}
-
 	public String obterNome() {
 		return nome;
 	}
 
-	public String obterCpf() {
+	public String obterIdentificador() {
 		return cpf;
 	}
 
-	public String obterCpfOuCnpjComApenasNumeros() {
-		return cpf.replaceAll("[.]", "").replaceAll("-", "").replaceAll("/", "");
+	public String obterIdentificadorApenasComNumeros() {
+		return cpf.replaceAll("[^0-9]", "");
 	}
 
 	public List<Imovel> obterImoveis() {
 		return imoveis;
+	}
+
+	public String obterValorDaDivida() {
+		return valor;
+	}
+
+	public String obterValorDaDividaApenasComNumeros() {
+		return valor.replaceAll("[^0-9,]", "");
 	}
 
 }

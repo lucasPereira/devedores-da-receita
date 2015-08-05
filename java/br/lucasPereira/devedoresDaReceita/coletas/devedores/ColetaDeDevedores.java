@@ -11,12 +11,10 @@ public class ColetaDeDevedores implements Serializable {
 
 	private String faixaDeValores;
 	private List<Devedor> devedores;
-	private LogDeDevedores log;
 
-	public ColetaDeDevedores(String faixaDeValores, List<Devedor> devedores, LogDeDevedores log) {
+	public ColetaDeDevedores(String faixaDeValores, List<Devedor> devedores) {
 		this.faixaDeValores = faixaDeValores;
 		this.devedores = devedores;
-		this.log = log;
 	}
 
 	public List<Devedor> obterDevedores() {
@@ -25,10 +23,6 @@ public class ColetaDeDevedores implements Serializable {
 
 	public String obterFaixaDeValores() {
 		return faixaDeValores;
-	}
-
-	public LogDeDevedores obterLog() {
-		return log;
 	}
 
 }

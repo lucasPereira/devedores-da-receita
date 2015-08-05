@@ -6,6 +6,7 @@ public class Imovel implements Serializable {
 
 	private static final long serialVersionUID = 9045389645889467102L;
 
+	private Devedor devedor;
 	private String codigo;
 	private String nome;
 	private String area;
@@ -14,7 +15,8 @@ public class Imovel implements Serializable {
 	private String dataDeEntrega;
 	private String situacaoDaDeclaracao;
 
-	public Imovel(String codigo, String nome, String area, String cidade, String estado, String dataDeEntrega, String situacaoDaDeclaracao) {
+	public Imovel(Devedor devedor, String codigo, String nome, String area, String cidade, String estado, String dataDeEntrega, String situacaoDaDeclaracao) {
+		this.devedor = devedor;
 		this.codigo = codigo;
 		this.nome = nome;
 		this.area = area;
@@ -22,6 +24,10 @@ public class Imovel implements Serializable {
 		this.estado = estado;
 		this.dataDeEntrega = dataDeEntrega;
 		this.situacaoDaDeclaracao = situacaoDaDeclaracao;
+	}
+
+	public Devedor obterDevedor() {
+		return devedor;
 	}
 
 	public String obterCodigo() {
@@ -34,6 +40,10 @@ public class Imovel implements Serializable {
 
 	public String obterArea() {
 		return area;
+	}
+
+	public String obterAreaApenasComNumeros() {
+		return area.replaceAll("[^0-9]", "");
 	}
 
 	public String obterCidade() {
@@ -50,6 +60,10 @@ public class Imovel implements Serializable {
 
 	public String obterSituacaoDaDeclaracao() {
 		return situacaoDaDeclaracao;
+	}
+
+	public String obterCodigoApenasComNumeros() {
+		return codigo.replaceAll("[^0-9]", "");
 	}
 
 }

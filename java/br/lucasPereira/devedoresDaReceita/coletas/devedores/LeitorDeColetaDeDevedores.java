@@ -1,16 +1,16 @@
 package br.lucasPereira.devedoresDaReceita.coletas.devedores;
 
-import br.lucasPereira.devedoresDaReceita.infraestrutura.FabricaDeLeitorDeObjetos;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.FabricaDeLeitorDeObjetosPadrao;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.Leitor;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.LeitorDeSer;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.serializacao.leitura.FabricaDeEntradaDeObjetos;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.serializacao.leitura.FabricaDeEntradaDeObjetosJava;
 
-public class LeitorDeColetaDeDevedores extends Leitor<ColetaDeDevedores> {
+public class LeitorDeColetaDeDevedores extends LeitorDeSer<ColetaDeDevedores> {
 
 	public LeitorDeColetaDeDevedores(String nomeDoArquivo) {
-		this(nomeDoArquivo, new FabricaDeLeitorDeObjetosPadrao());
+		this(nomeDoArquivo, new FabricaDeEntradaDeObjetosJava());
 	}
 
-	public LeitorDeColetaDeDevedores(String nomeDoArquivo, FabricaDeLeitorDeObjetos fabricaDeLeitorDeObjetos) {
+	public LeitorDeColetaDeDevedores(String nomeDoArquivo, FabricaDeEntradaDeObjetos fabricaDeLeitorDeObjetos) {
 		super(nomeDoArquivo, fabricaDeLeitorDeObjetos);
 	}
 
