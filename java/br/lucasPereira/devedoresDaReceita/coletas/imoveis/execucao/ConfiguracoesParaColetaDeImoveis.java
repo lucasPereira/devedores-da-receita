@@ -1,10 +1,13 @@
 package br.lucasPereira.devedoresDaReceita.coletas.imoveis.execucao;
 
+import javax.swing.JOptionPane;
+
 import org.openqa.selenium.By;
 
 public class ConfiguracoesParaColetaDeImoveis {
 
 	private static final Boolean SIMULAR = false;
+	private static final Boolean TURBO = false;
 
 	public String obterUriInicial() {
 		return SIMULAR ? "file:///home/lucas/projetos/devedoresDaReceita/html/inicio.html" : "https://sncr.serpro.gov.br";
@@ -23,19 +26,36 @@ public class ConfiguracoesParaColetaDeImoveis {
 	}
 
 	public Integer obterQuantidadeDeDevedoresPorColeta() {
-		return 10;
+		String quantidadeTextual = JOptionPane.showInputDialog("Digite a quantidade de devedores para esta coleta (o valor padrão é 250):");
+		try {
+			return Integer.parseInt(quantidadeTextual);
+		} catch (NumberFormatException excecao) {
+			return 250;
+		}
 	}
 
-	public Integer obterTempoEmSegundosDeEspoeraParaAutenticacao() {
-		return 5;
+	public Integer obterTempoDeDescansoEntreVerificacoesDeAutenticacao() {
+		return 10;
 	}
 
 	public Integer obterTempoMaximoDeEsperaDaPaginaEmSegundos() {
 		return 10;
 	}
 
-	public long obterTempoMaximoDeEsperaDoElementoEmSegundos() {
-		return 10;
+	public Integer obterTempoDeDescansoAposBuscar() {
+		return TURBO ? 0 : 3;
+	}
+
+	public Integer obterTempoDeDescansoAposIrParaProximaPagina() {
+		return TURBO ? 0 : 2;
+	}
+
+	public Integer obterTempoDeDescansoAposIrParaPaginaDeBusca() {
+		return TURBO ? 0 : 3;
+	}
+
+	public Integer obterTempoDeDescansoAntesDeFechar() {
+		return 30;
 	}
 
 	public Integer obterIdiceDaOpcaoSr() {

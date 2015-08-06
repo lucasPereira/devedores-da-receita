@@ -3,6 +3,8 @@ package br.lucasPereira.devedoresDaReceita.coletas.imoveis.execucao;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -43,16 +45,21 @@ public class ColetorDeImoveis {
 	private int ultimoIndice;
 
 	public ColetorDeImoveis() {
-		configuracoes = new ConfiguracoesParaColetaDeImoveis();
-		obterColeta();
-		devedoresComImoveisColetados = new LinkedList<>();
-		dorminhoco = new Dorminhoco();
-		acessarPagina();
-		autenticar();
-		coletar();
-		persistirColetaCsv();
-		persistirColetaSer();
-		fecharPagina();
+		try {
+			configuracoes = new ConfiguracoesParaColetaDeImoveis();
+			obterColeta();
+			devedoresComImoveisColetados = new LinkedList<>();
+			dorminhoco = new Dorminhoco();
+			acessarPagina();
+			autenticar();
+			coletar();
+			persistirColetaCsv();
+			persistirColetaSer();
+			fecharPagina();
+		} catch (Exception excecao) {
+			JOptionPane.showMessageDialog(null, String.format("Ocorreu um erro durante a coleta: %s. Encerrando sistema.", excecao.getMessage()));
+			System.exit(0);
+		}
 	}
 
 	private void obterColeta() {
@@ -66,10 +73,14 @@ public class ColetorDeImoveis {
 		primeiroIndice = coletaDeImoveis.obterUltimoIndiceDaColetaDeDevedores();
 		ultimoIndice = primeiroIndice + quantidadeDeDevedoresPorColeta;
 		ultimoIndice = (ultimoIndice > quantidadeTotalDeDevedores) ? quantidadeTotalDeDevedores : ultimoIndice;
+		System.out.println(quantidadeDeDevedoresPorColeta);
+		System.out.println(primeiroIndice);
+		System.out.println(ultimoIndice);
 		if (primeiroIndice >= 0 && primeiroIndice < quantidadeTotalDeDevedores && ultimoIndice > primeiroIndice && ultimoIndice <= quantidadeTotalDeDevedores) {
 			devedores = todosDevedores.subList(primeiroIndice, ultimoIndice);
 		} else {
-			throw new RuntimeException(String.format("Coleta de imóveis dos devedores terminada: %s %s %s %s", nomeDaColetaDeDevedores, primeiroIndice, ultimoIndice, quantidadeDeDevedoresPorColeta));
+			JOptionPane.showMessageDialog(null, "A coleta já foi realizada para todos os devedores. Encerrando sistema.");
+			System.exit(0);
 		}
 	}
 
@@ -82,7 +93,7 @@ public class ColetorDeImoveis {
 	private void autenticar() {
 		System.out.println("Aguardando autenticação manual.");
 		do {
-			Integer descanso = configuracoes.obterTempoEmSegundosDeEspoeraParaAutenticacao();
+			Integer descanso = configuracoes.obterTempoDeDescansoEntreVerificacoesDeAutenticacao();
 			dorminhoco.descansarSegundos(descanso);
 		} while (!estaAutenticado());
 	}
@@ -104,10 +115,12 @@ public class ColetorDeImoveis {
 	private void buscarImoveis(Devedor devedor) {
 		System.out.println("Buscando imóveis do devedor.");
 		selenium.get(configuracoes.obterUriDeBuscaDeImoveis());
+		dorminhoco.descansarSegundos(configuracoes.obterTempoDeDescansoAposIrParaPaginaDeBusca());
 		new Select(selenium.findElement(configuracoes.obterSeletorDoSeletorSr())).selectByIndex(configuracoes.obterIdiceDaOpcaoSr());
 		selenium.findElement(configuracoes.obterSeletorDoCampoCpfCnpj()).sendKeys(devedor.obterIdentificadorApenasComNumeros());
 		selenium.findElement(configuracoes.obterSeletorDoBotaoPesquisar()).click();
-		 aguardarCarregamentoDaBuscaDoDevedorConcluir();
+		aguardarCarregamentoDaBuscaDoDevedorConcluir();
+		dorminhoco.descansarSegundos(configuracoes.obterTempoDeDescansoAposBuscar());
 	}
 
 	private void coletarImoveis(Devedor devedor) {
@@ -152,6 +165,7 @@ public class ColetorDeImoveis {
 		if (!botaoProximaPaginaEstaDesabilitado) {
 			botaoProximaPagina.click();
 			aguardarCarregamentoDaProximaPaginaConcluir();
+			dorminhoco.descansarSegundos(configuracoes.obterTempoDeDescansoAposIrParaProximaPagina());
 			return true;
 		}
 		return false;
@@ -189,7 +203,7 @@ public class ColetorDeImoveis {
 		System.out.println("Fechando página.");
 		WebElement botaoSair = selenium.findElement(configuracoes.obterSeletorDoBotaoDeSair());
 		botaoSair.click();
-		dorminhoco.descansarSegundos(30);
+		dorminhoco.descansarSegundos(configuracoes.obterTempoDeDescansoAntesDeFechar());
 		selenium.close();
 	}
 
