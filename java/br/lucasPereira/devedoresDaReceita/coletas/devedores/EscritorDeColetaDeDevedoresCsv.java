@@ -15,8 +15,7 @@ public final class EscritorDeColetaDeDevedoresCsv extends EscritorDeCsv<Devedor>
 		adicionarCampo(elemento.obterIdentificador());
 		adicionarCampo(elemento.obterIdentificadorApenasComNumeros());
 		adicionarCampo(elemento.obterNome());
-		adicionarCampo(elemento.obterValorDaDivida());
-		finalizarLinha();
+		finalizarLinha(elemento.obterValorDaDivida());
 	}
 
 }

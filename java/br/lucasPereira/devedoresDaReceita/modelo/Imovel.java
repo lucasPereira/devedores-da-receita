@@ -30,20 +30,8 @@ public class Imovel implements Serializable {
 		return devedor;
 	}
 
-	public String obterCodigo() {
-		return codigo;
-	}
-
 	public String obterNome() {
 		return nome;
-	}
-
-	public String obterArea() {
-		return area;
-	}
-
-	public String obterAreaApenasComNumeros() {
-		return area.replaceAll("[^0-9]", "");
 	}
 
 	public String obterCidade() {
@@ -62,8 +50,20 @@ public class Imovel implements Serializable {
 		return situacaoDaDeclaracao;
 	}
 
+	public String obterCodigo() {
+		return codigo;
+	}
+
 	public String obterCodigoApenasComNumeros() {
 		return codigo.replaceAll("[^0-9]", "");
+	}
+
+	public String obterArea() {
+		return area;
+	}
+
+	public String obterAreaApenasComNumeros() {
+		return area.replaceAll("[^0-9]", "");
 	}
 
 }

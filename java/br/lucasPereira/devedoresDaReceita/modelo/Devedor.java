@@ -29,14 +29,6 @@ public class Devedor implements Serializable {
 		return nome;
 	}
 
-	public String obterIdentificador() {
-		return cpf;
-	}
-
-	public String obterIdentificadorApenasComNumeros() {
-		return cpf.replaceAll("[^0-9]", "");
-	}
-
 	public List<Imovel> obterImoveis() {
 		return imoveis;
 	}
@@ -45,8 +37,16 @@ public class Devedor implements Serializable {
 		return valor;
 	}
 
-	public String obterValorDaDividaApenasComNumeros() {
+	public String obterValorDaDividaDecimal() {
 		return valor.replaceAll("[^0-9,]", "");
+	}
+
+	public String obterIdentificador() {
+		return cpf;
+	}
+
+	public String obterIdentificadorApenasComNumeros() {
+		return cpf.replaceAll("[^0-9]", "");
 	}
 
 }

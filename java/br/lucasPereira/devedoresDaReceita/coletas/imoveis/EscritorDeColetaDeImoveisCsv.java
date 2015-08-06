@@ -25,12 +25,11 @@ public final class EscritorDeColetaDeImoveisCsv extends EscritorDeCsv<Devedor> {
 		adicionarCampo(elemento.obterIdentificadorApenasComNumeros());
 		adicionarCampo(elemento.obterNome());
 		adicionarCampo(elemento.obterValorDaDivida());
-		adicionarCampo(elemento.obterValorDaDividaApenasComNumeros());
+		adicionarCampo(elemento.obterValorDaDividaDecimal());
 	}
 
 	private void adicionarLinhaApenasComDevedor(Devedor elemento) {
 		adicionarCamposDoDevedor(elemento);
-		adicionarCampo();
 		adicionarCampo();
 		adicionarCampo();
 		adicionarCampo();
@@ -53,8 +52,7 @@ public final class EscritorDeColetaDeImoveisCsv extends EscritorDeCsv<Devedor> {
 			adicionarCampo(imovel.obterCidade());
 			adicionarCampo(imovel.obterEstado());
 			adicionarCampo(imovel.obterDataDeEntrega());
-			adicionarCampo(imovel.obterSituacaoDaDeclaracao());
-			finalizarLinha();
+			finalizarLinha(imovel.obterSituacaoDaDeclaracao());
 		}
 	}
 

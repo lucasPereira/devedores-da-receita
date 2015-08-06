@@ -1,7 +1,11 @@
 package br.lucasPereira.devedoresDaReceita.coletas.imoveis.execucao;
 
 import br.lucasPereira.devedoresDaReceita.coletas.imoveis.ColetaDeImoveis;
+import br.lucasPereira.devedoresDaReceita.coletas.imoveis.EscritorDeColetaDeImoveisCsv;
 import br.lucasPereira.devedoresDaReceita.coletas.imoveis.LeitorDeColetaDeImoveis;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorConcreto;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorCsv;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorIdentificador;
 import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 import br.lucasPereira.devedoresDaReceita.modelo.Imovel;
 
@@ -39,6 +43,7 @@ public class VisualizadorDeColetaDeImoveis {
 			System.out.println();
 		}
 		System.out.println(coleta.obterDevedoresComImoveisColetados().size());
+		new EscritorDeColetaDeImoveisCsv(new NomeadorIdentificador(new NomeadorCsv(new NomeadorConcreto()), "correcao")).salvar(coleta.obterDevedoresComImoveisColetados());
 	}
 
 }
