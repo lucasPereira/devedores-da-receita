@@ -10,7 +10,7 @@ public class VisualizadorDeColetaDeImoveis {
 	private String nomeDoArquivo;
 
 	public static void main(String[] args) {
-		new VisualizadorDeColetaDeImoveis("ser/imoveis_2015.08.05_16.44.ser").visualizar();
+		new VisualizadorDeColetaDeImoveis("ser/imoveis.ser").visualizar();
 	}
 
 	public VisualizadorDeColetaDeImoveis(String nomeDoArquivo) {
@@ -19,12 +19,10 @@ public class VisualizadorDeColetaDeImoveis {
 
 	public void visualizar() {
 		ColetaDeImoveis coleta = new LeitorDeColetaDeImoveis(nomeDoArquivo).carregar();
-		for (Devedor devedor : coleta.obterDevedores()) {
-			System.out.println(devedor.obterIdentificador());
-			System.out.println(devedor.obterNome());
-			System.out.println(devedor.obterValorDaDivida());
-			System.out.println();
-		}
+		System.out.println(coleta.obterNomeDaColetaDeDevedores());
+		System.out.println(coleta.obterPrimeiroIndiceDaColetaDeDevedores());
+		System.out.println(coleta.obterUltimoIndiceDaColetaDeDevedores());
+		System.out.println();
 		for (Devedor devedor : coleta.obterDevedoresComImoveisColetados()) {
 			System.out.println(devedor.obterIdentificador());
 			System.out.println(devedor.obterNome());
@@ -40,7 +38,6 @@ public class VisualizadorDeColetaDeImoveis {
 			}
 			System.out.println();
 		}
-		System.out.println(coleta.obterDevedores().size());
 		System.out.println(coleta.obterDevedoresComImoveisColetados().size());
 	}
 

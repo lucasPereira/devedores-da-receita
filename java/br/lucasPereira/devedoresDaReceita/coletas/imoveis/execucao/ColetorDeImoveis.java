@@ -12,10 +12,18 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import br.lucasPereira.devedoresDaReceita.coletas.devedores.ColetaDeDevedores;
+import br.lucasPereira.devedoresDaReceita.coletas.devedores.LeitorDeColetaDeDevedores;
 import br.lucasPereira.devedoresDaReceita.coletas.imoveis.ColetaDeImoveis;
 import br.lucasPereira.devedoresDaReceita.coletas.imoveis.EscritorDeColetaDeImoveisCsv;
 import br.lucasPereira.devedoresDaReceita.coletas.imoveis.EscritorDeColetaDeImoveisSer;
+import br.lucasPereira.devedoresDaReceita.coletas.imoveis.LeitorDeColetaDeImoveis;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.Dorminhoco;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorConcreto;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorCsv;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorDataHorario;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorIdentificador;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorSer;
 import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 import br.lucasPereira.devedoresDaReceita.modelo.Imovel;
 
@@ -30,18 +38,39 @@ public class ColetorDeImoveis {
 	private List<Devedor> devedoresComImoveisColetados;
 	private ConfiguracoesParaColetaDeImoveis configuracoes;
 	private Dorminhoco dorminhoco;
+	private String nomeDaColetaDeDevedores;
+	private Integer primeiroIndice;
+	private int ultimoIndice;
 
 	public ColetorDeImoveis() {
 		configuracoes = new ConfiguracoesParaColetaDeImoveis();
-		devedores = configuracoes.obterDevedoresParaColetar();
+		obterColeta();
 		devedoresComImoveisColetados = new LinkedList<>();
 		dorminhoco = new Dorminhoco();
 		acessarPagina();
 		autenticar();
 		coletar();
-		persistirColetaSer();
 		persistirColetaCsv();
+		persistirColetaSer();
 		fecharPagina();
+	}
+
+	private void obterColeta() {
+		Integer quantidadeDeDevedoresPorColeta = configuracoes.obterQuantidadeDeDevedoresPorColeta();
+		nomeDaColetaDeDevedores = configuracoes.obterNomeDaColetaDeDevedores();
+		String nomeDaColetaDeImoveis = configuracoes.obterNomeDaColetaDeImoveis();
+		ColetaDeDevedores coletaDeDevedores = new LeitorDeColetaDeDevedores(nomeDaColetaDeDevedores).carregar();
+		ColetaDeImoveis coletaDeImoveis = new LeitorDeColetaDeImoveis(nomeDaColetaDeImoveis).carregar();
+		List<Devedor> todosDevedores = coletaDeDevedores.obterDevedores();
+		Integer quantidadeTotalDeDevedores = todosDevedores.size();
+		primeiroIndice = coletaDeImoveis.obterUltimoIndiceDaColetaDeDevedores();
+		ultimoIndice = primeiroIndice + quantidadeDeDevedoresPorColeta;
+		ultimoIndice = (ultimoIndice > quantidadeTotalDeDevedores) ? quantidadeTotalDeDevedores : ultimoIndice;
+		if (primeiroIndice >= 0 && primeiroIndice < quantidadeTotalDeDevedores && ultimoIndice > primeiroIndice && ultimoIndice <= quantidadeTotalDeDevedores) {
+			devedores = todosDevedores.subList(primeiroIndice, ultimoIndice);
+		} else {
+			throw new RuntimeException(String.format("Coleta de imóveis dos devedores terminada: %s %s %s %s", nomeDaColetaDeDevedores, primeiroIndice, ultimoIndice, quantidadeDeDevedoresPorColeta));
+		}
 	}
 
 	private void acessarPagina() {
@@ -67,12 +96,8 @@ public class ColetorDeImoveis {
 	private void coletar() {
 		System.out.println("Iniciando coleta.");
 		for (Devedor devedor : devedores) {
-			try {
-				buscarImoveis(devedor);
-				coletarImoveis(devedor);
-			} catch (Exception excecao) {
-				excecao.printStackTrace();
-			}
+			buscarImoveis(devedor);
+			coletarImoveis(devedor);
 		}
 	}
 
@@ -82,7 +107,7 @@ public class ColetorDeImoveis {
 		new Select(selenium.findElement(configuracoes.obterSeletorDoSeletorSr())).selectByIndex(configuracoes.obterIdiceDaOpcaoSr());
 		selenium.findElement(configuracoes.obterSeletorDoCampoCpfCnpj()).sendKeys(devedor.obterIdentificadorApenasComNumeros());
 		selenium.findElement(configuracoes.obterSeletorDoBotaoPesquisar()).click();
-		aguardarCarregamentoDaBuscaDoDevedorConcluir();
+		 aguardarCarregamentoDaBuscaDoDevedorConcluir();
 	}
 
 	private void coletarImoveis(Devedor devedor) {
@@ -115,7 +140,6 @@ public class ColetorDeImoveis {
 		try {
 			return selenium.findElement(configuracoes.obterSeletorDoResultadoDeImoveis()).isDisplayed();
 		} catch (NoSuchElementException excecao) {
-			excecao.printStackTrace();
 			return false;
 		}
 	}
@@ -147,17 +171,18 @@ public class ColetorDeImoveis {
 		seleniumQueAguardaCondicao.until(condicaoAguardarTerminoDoCarregamento);
 	}
 
-	private void persistirColetaSer() {
-		System.out.println("Persistindo coleta.");
-		ColetaDeImoveis coleta = new ColetaDeImoveis(devedores, devedoresComImoveisColetados);
-		EscritorDeColetaDeImoveisSer escritor = new EscritorDeColetaDeImoveisSer();
-		escritor.salvar(coleta);
-	}
-
 	private void persistirColetaCsv() {
 		System.out.println("Persistindo imóveis.");
-		EscritorDeColetaDeImoveisCsv escritor = new EscritorDeColetaDeImoveisCsv();
+		NomeadorDataHorario nomeador = new NomeadorDataHorario(new NomeadorCsv(new NomeadorConcreto()), "imoveis");
+		EscritorDeColetaDeImoveisCsv escritor = new EscritorDeColetaDeImoveisCsv(nomeador);
 		escritor.salvar(devedoresComImoveisColetados);
+	}
+
+	private void persistirColetaSer() {
+		System.out.println("Persistindo coleta.");
+		ColetaDeImoveis coleta = new ColetaDeImoveis(nomeDaColetaDeDevedores, primeiroIndice, ultimoIndice, devedoresComImoveisColetados);
+		new EscritorDeColetaDeImoveisSer(new NomeadorDataHorario(new NomeadorSer(new NomeadorConcreto()), "imoveis")).salvar(coleta);
+		new EscritorDeColetaDeImoveisSer(new NomeadorIdentificador(new NomeadorSer(new NomeadorConcreto()), "imoveis")).salvar(coleta);
 	}
 
 	private void fecharPagina() {

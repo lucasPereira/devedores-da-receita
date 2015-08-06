@@ -1,12 +1,6 @@
 package br.lucasPereira.devedoresDaReceita.coletas.imoveis.execucao;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.openqa.selenium.By;
-
-import br.lucasPereira.devedoresDaReceita.coletas.devedores.LeitorDeColetaDeDevedores;
-import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 
 public class ConfiguracoesParaColetaDeImoveis {
 
@@ -20,9 +14,16 @@ public class ConfiguracoesParaColetaDeImoveis {
 		return SIMULAR ? "file:///home/lucas/projetos/devedoresDaReceita/html/inicio.html" : "http://sncr.serpro.gov.br/sncr-web/private/pages/consultarDeclaracao.jsf";
 	}
 
-	public List<Devedor> obterDevedoresParaColetar() {
-		LeitorDeColetaDeDevedores leitor = new LeitorDeColetaDeDevedores("ser/devedores_2015.07.27_02.56.ser");
-		return new LinkedList<>(leitor.carregar().obterDevedores().subList(0, 9));
+	public String obterNomeDaColetaDeDevedores() {
+		return "ser/devedores_2015.07.27_02.56.ser";
+	}
+
+	public String obterNomeDaColetaDeImoveis() {
+		return "ser/imoveis.ser";
+	}
+
+	public Integer obterQuantidadeDeDevedoresPorColeta() {
+		return 10;
 	}
 
 	public Integer obterTempoEmSegundosDeEspoeraParaAutenticacao() {
@@ -30,6 +31,10 @@ public class ConfiguracoesParaColetaDeImoveis {
 	}
 
 	public Integer obterTempoMaximoDeEsperaDaPaginaEmSegundos() {
+		return 10;
+	}
+
+	public long obterTempoMaximoDeEsperaDoElementoEmSegundos() {
 		return 10;
 	}
 

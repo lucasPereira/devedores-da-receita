@@ -1,13 +1,12 @@
 package br.lucasPereira.devedoresDaReceita.coletas.devedores;
 
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.EscritorDeSer;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorDeArquivosSer;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.Nomeador;
 
-public class EscritorDeColetaDeDevedoresSer extends EscritorDeSer<ColetaDeDevedores> {
+public final class EscritorDeColetaDeDevedoresSer extends EscritorDeSer<ColetaDeDevedores> {
 
-	@Override
-	public NomeadorDeArquivosSer construirNomeador() {
-		return new NomeadorDeArquivosSer("devedores");
+	public EscritorDeColetaDeDevedoresSer(Nomeador nomeador) {
+		super(nomeador);
 	}
 
 }

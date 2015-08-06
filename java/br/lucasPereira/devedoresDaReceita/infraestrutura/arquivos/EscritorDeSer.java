@@ -1,6 +1,5 @@
 package br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -8,32 +7,25 @@ import java.io.ObjectOutputStream;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.serializacao.escrita.FabricaDeSaidaDeObjetos;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.serializacao.escrita.FabricaDeSaidaDeObjetosJava;
 
-public abstract class EscritorDeSer<T> extends EscritorDeArquivo<NomeadorDeArquivosSer> {
+public class EscritorDeSer<T> extends EscritorDeArquivo<T> {
 
 	private FabricaDeSaidaDeObjetos fabricaDeSaidaDeObjetos;
 
-	public EscritorDeSer(FabricaDeSaidaDeObjetos fabricaDeSaidaDeObjetos) {
+	public EscritorDeSer(Nomeador nomeador, FabricaDeSaidaDeObjetos fabricaDeSaidaDeObjetos) {
+		super(nomeador);
 		this.fabricaDeSaidaDeObjetos = fabricaDeSaidaDeObjetos;
 	}
 
-	public EscritorDeSer() {
-		this(new FabricaDeSaidaDeObjetosJava());
+	public EscritorDeSer(Nomeador nomeador) {
+		this(nomeador, new FabricaDeSaidaDeObjetosJava());
 	}
 
-	public final void salvar(T objeto) {
-		try {
-			NomeadorDeArquivosSer nomeadorDeArquivos = construirNomeador();
-			nomeadorDeArquivos.criarDiretorio();
-			String nomeDoArquivo = nomeadorDeArquivos.obterNomeComDataHorarioAtual();
-			FileOutputStream arquivo = new FileOutputStream(nomeDoArquivo);
-			ObjectOutputStream saida = fabricaDeSaidaDeObjetos.construir(arquivo);
-			saida.writeObject(objeto);
-			saida.close();
-		} catch (FileNotFoundException excecao) {
-			excecao.printStackTrace();
-		} catch (IOException excecao) {
-			excecao.printStackTrace();
-		}
+	@Override
+	public final void salvar(T elemento, String nomeDoArquivo) throws IOException {
+		FileOutputStream arquivo = new FileOutputStream(nomeDoArquivo);
+		ObjectOutputStream saida = fabricaDeSaidaDeObjetos.construir(arquivo);
+		saida.writeObject(elemento);
+		saida.close();
 	}
 
 }

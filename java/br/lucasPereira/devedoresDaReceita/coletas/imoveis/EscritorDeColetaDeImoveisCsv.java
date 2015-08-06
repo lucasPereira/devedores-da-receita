@@ -1,15 +1,14 @@
 package br.lucasPereira.devedoresDaReceita.coletas.imoveis;
 
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.EscritorDeCsv;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorDeArquivosCsv;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.Nomeador;
 import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 import br.lucasPereira.devedoresDaReceita.modelo.Imovel;
 
 public final class EscritorDeColetaDeImoveisCsv extends EscritorDeCsv<Devedor> {
 
-	@Override
-	public NomeadorDeArquivosCsv construirNomeador() {
-		return new NomeadorDeArquivosCsv("imoveis");
+	public EscritorDeColetaDeImoveisCsv(Nomeador nomeador) {
+		super(nomeador);
 	}
 
 	@Override

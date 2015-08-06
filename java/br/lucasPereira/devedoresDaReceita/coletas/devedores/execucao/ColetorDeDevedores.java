@@ -15,6 +15,10 @@ import br.lucasPereira.devedoresDaReceita.coletas.devedores.ColetaDeDevedores;
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.EscritorDeColetaDeDevedoresCsv;
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.EscritorDeColetaDeDevedoresSer;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.Dorminhoco;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorConcreto;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorCsv;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorDataHorario;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorSer;
 import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 
 public class ColetorDeDevedores {
@@ -35,8 +39,8 @@ public class ColetorDeDevedores {
 		acessarPagina();
 		buscar();
 		coletar();
-		persistirColetaSer();
 		persistirColetaCsv();
+		persistirColetaSer();
 		fecharPagina();
 	}
 
@@ -125,13 +129,15 @@ public class ColetorDeDevedores {
 	private void persistirColetaSer() {
 		System.out.println("Persistindo coleta.");
 		ColetaDeDevedores coleta = new ColetaDeDevedores(faixaDeValores, devedores);
-		EscritorDeColetaDeDevedoresSer escritor = new EscritorDeColetaDeDevedoresSer();
+		NomeadorDataHorario nomeador = new NomeadorDataHorario(new NomeadorSer(new NomeadorConcreto()), "devedores");
+		EscritorDeColetaDeDevedoresSer escritor = new EscritorDeColetaDeDevedoresSer(nomeador);
 		escritor.salvar(coleta);
 	}
 
 	private void persistirColetaCsv() {
 		System.out.println("Persistindo devedores.");
-		EscritorDeColetaDeDevedoresCsv escritor = new EscritorDeColetaDeDevedoresCsv();
+		NomeadorDataHorario nomeador = new NomeadorDataHorario(new NomeadorCsv(new NomeadorConcreto()), "devedores");
+		EscritorDeColetaDeDevedoresCsv escritor = new EscritorDeColetaDeDevedoresCsv(nomeador);
 		escritor.salvar(devedores);
 	}
 

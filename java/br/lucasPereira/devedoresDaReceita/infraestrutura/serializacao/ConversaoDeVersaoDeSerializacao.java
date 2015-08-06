@@ -2,7 +2,9 @@ package br.lucasPereira.devedoresDaReceita.infraestrutura.serializacao;
 
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.EscritorDeSer;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.LeitorDeSer;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorDeArquivosSer;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorDataHorario;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorConcreto;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorSer;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.serializacao.escrita.FabricaDeSaidaDeObjetos;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.serializacao.escrita.FabricaDeSaidaDeObjetosRenomeados;
 
@@ -31,14 +33,9 @@ public abstract class ConversaoDeVersaoDeSerializacao<Antigo, Novo> {
 	}
 
 	private final EscritorDeSer<Novo> obterEscritorDaVersaoNova() {
-		return new EscritorDeSer<Novo>(obterFabricaDeSaidaDeObjetos()) {
-
-			@Override
-			public NomeadorDeArquivosSer construirNomeador() {
-				return new NomeadorDeArquivosSer(obterPrefixoDoArquivoDaVersaoNova());
-			}
-
-		};
+		String prefixo = obterPrefixoDoArquivoDaVersaoNova();
+		NomeadorSer nomeador = new NomeadorSer(new NomeadorDataHorario(new NomeadorConcreto(), prefixo));
+		return new EscritorDeSer<Novo>(nomeador, obterFabricaDeSaidaDeObjetos());
 	}
 
 	public final void converter() {

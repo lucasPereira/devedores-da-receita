@@ -1,7 +1,6 @@
 package br.lucasPereira.devedoresDaReceita.coletas.devedores.execucao;
 
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.ColetaDeDevedores;
-import br.lucasPereira.devedoresDaReceita.coletas.devedores.EscritorDeColetaDeDevedoresSer;
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.LeitorDeColetaDeDevedores;
 import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 
@@ -27,7 +26,6 @@ public class VisualizadorDeColetaDeDevedores {
 			System.out.println(devedor.obterValorDaDivida());
 			System.out.println();
 		}
-		new EscritorDeColetaDeDevedoresSer().salvar(coleta);
 		System.out.println(coleta.obterDevedores().size());
 	}
 
