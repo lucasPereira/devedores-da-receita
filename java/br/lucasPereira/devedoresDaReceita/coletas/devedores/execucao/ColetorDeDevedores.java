@@ -15,10 +15,8 @@ import br.lucasPereira.devedoresDaReceita.coletas.devedores.ColetaDeDevedores;
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.EscritorDeColetaDeDevedoresCsv;
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.EscritorDeColetaDeDevedoresSer;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.Dorminhoco;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorConcreto;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorCsv;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.Nomeador;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorDataHorario;
-import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorSer;
 import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 
 public class ColetorDeDevedores {
@@ -35,7 +33,7 @@ public class ColetorDeDevedores {
 	public ColetorDeDevedores() {
 		devedores = new LinkedList<>();
 		configuracoes = new ConfiguracoesDeColetaDeDevedores();
-		faixaDeValores = configuracoes.obterValorDaFaixaDeValoresAcimaDeDezMilhoes();
+		faixaDeValores = configuracoes.obterValorDaFaixaDeValores();
 		acessarPagina();
 		buscar();
 		coletar();
@@ -129,21 +127,21 @@ public class ColetorDeDevedores {
 	private void persistirColetaSer() {
 		System.out.println("Persistindo coleta.");
 		ColetaDeDevedores coleta = new ColetaDeDevedores(faixaDeValores, devedores);
-		NomeadorDataHorario nomeador = new NomeadorDataHorario(new NomeadorSer(new NomeadorConcreto()), "devedores");
+		Nomeador nomeador = configuracoes.obterNomeadorParaColetaSer();
 		EscritorDeColetaDeDevedoresSer escritor = new EscritorDeColetaDeDevedoresSer(nomeador);
 		escritor.salvar(coleta);
 	}
 
 	private void persistirColetaCsv() {
 		System.out.println("Persistindo devedores.");
-		NomeadorDataHorario nomeador = new NomeadorDataHorario(new NomeadorCsv(new NomeadorConcreto()), "devedores");
+		NomeadorDataHorario nomeador = configuracoes.obterNomeadorParaColetaCsv();
 		EscritorDeColetaDeDevedoresCsv escritor = new EscritorDeColetaDeDevedoresCsv(nomeador);
 		escritor.salvar(devedores);
 	}
 
 	private void fecharPagina() {
 		System.out.println("Fechando página.");
-		new Dorminhoco().descansarSegundos(30);
+		new Dorminhoco().descansarSegundos(configuracoes.obterTempoDeEsperaEmSegundosAntesDeFecharAPagina());
 		selenium.close();
 	}
 

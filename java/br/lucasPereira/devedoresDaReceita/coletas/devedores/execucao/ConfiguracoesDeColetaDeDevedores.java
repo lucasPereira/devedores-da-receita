@@ -1,13 +1,15 @@
 package br.lucasPereira.devedoresDaReceita.coletas.devedores.execucao;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.Nomeador;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorConcreto;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorCsv;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorDataHorario;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorSer;
 
 public class ConfiguracoesDeColetaDeDevedores {
 
 	public String obterUriDaPaginaComDevedores() {
-		return "https://www2.pgfn.fazenda.gov.br/ecac/contribuinte/devedores/listaDevedores.jsf;jsessionid=6FFC570043A5DD4EC6672AE4D48D6EB7.app1";
+		return "https://www2.pgfn.fazenda.gov.br/ecac/contribuinte/devedores/listaDevedores.jsf";
 	}
 
 	public Integer obterTempoEmSegundosParaDigitacaoDoCapatcha() {
@@ -26,6 +28,14 @@ public class ConfiguracoesDeColetaDeDevedores {
 		return "listaDevedoresForm:faixasInput";
 	}
 
+	public String obterValorDaFaixaDeValoresAcimaDeZero() {
+		return "ATE_20_MIL";
+	}
+
+	public String obterValorDaFaixaDeValoresAcimaDeVinteMil() {
+		return "DE_20_MIL_ATE_200_MIL";
+	}
+
 	public String obterValorDaFaixaDeValoresAcimaDeDuzentosMil() {
 		return "DE_200_MIL_ATE_1_MILHAO";
 	}
@@ -36,6 +46,10 @@ public class ConfiguracoesDeColetaDeDevedores {
 
 	public String obterValorDaFaixaDeValoresAcimaDeDezMilhoes() {
 		return "ALEM_DE_10_MILHOES";
+	}
+
+	public String obterValorDaFaixaDeValores() {
+		return obterValorDaFaixaDeValoresAcimaDeUmMilhao();
 	}
 
 	public String obterIdentificadorDoBotaoConsultar() {
@@ -66,28 +80,16 @@ public class ConfiguracoesDeColetaDeDevedores {
 		return "listaDevedoresForm:captchaMessage";
 	}
 
-	public String obterArquivoCsvDeColetaDeDevedores() {
-		GregorianCalendar calendario = new GregorianCalendar();
-		SimpleDateFormat formatoDeData = new SimpleDateFormat("Y-MM-dd");
-		SimpleDateFormat formatoDeHora = new SimpleDateFormat("HH:mm");
-		Date agora = calendario.getTime();
-		return String.format("csv/coleta_devedores_%s_%s.csv", formatoDeData.format(agora), formatoDeHora.format(agora));
+	public Nomeador obterNomeadorParaColetaSer() {
+		return new NomeadorDataHorario(new NomeadorSer(new NomeadorConcreto()), "devedores");
 	}
 
-	public String obterArquivoCsvDeLogDeColetaDeDevedores() {
-		GregorianCalendar calendario = new GregorianCalendar();
-		SimpleDateFormat formatoDeData = new SimpleDateFormat("Y-MM-dd");
-		SimpleDateFormat formatoDeHora = new SimpleDateFormat("HH:mm");
-		Date agora = calendario.getTime();
-		return String.format("csv/coleta_devedores_log_%s_%s.csv", formatoDeData.format(agora), formatoDeHora.format(agora));
+	public NomeadorDataHorario obterNomeadorParaColetaCsv() {
+		return new NomeadorDataHorario(new NomeadorCsv(new NomeadorConcreto()), "devedores");
 	}
 
-	public String obterArquivoDeColetaDeDevedores() {
-		GregorianCalendar calendario = new GregorianCalendar();
-		SimpleDateFormat formatoDeData = new SimpleDateFormat("Y-MM-dd");
-		SimpleDateFormat formatoDeHora = new SimpleDateFormat("HH:mm");
-		Date agora = calendario.getTime();
-		return String.format("ser/coleta_devedores_%s_%s.ser", formatoDeData.format(agora), formatoDeHora.format(agora));
+	public Integer obterTempoDeEsperaEmSegundosAntesDeFecharAPagina() {
+		return 30;
 	}
 
 }
