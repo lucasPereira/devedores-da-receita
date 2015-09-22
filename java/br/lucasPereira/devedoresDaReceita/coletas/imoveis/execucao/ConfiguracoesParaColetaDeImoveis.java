@@ -26,11 +26,11 @@ public class ConfiguracoesParaColetaDeImoveis {
 	}
 
 	public Integer obterQuantidadeDeDevedoresPorColeta() {
-		String quantidadeTextual = JOptionPane.showInputDialog("Digite a quantidade de devedores para esta coleta (o valor padrão é 250):");
+		String quantidadeTextual = JOptionPane.showInputDialog("Digite a quantidade de devedores para esta coleta (o valor padrão é 1000):");
 		try {
 			return Integer.parseInt(quantidadeTextual);
 		} catch (NumberFormatException excecao) {
-			return 250;
+			return 1000;
 		}
 	}
 
