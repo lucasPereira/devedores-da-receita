@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 public class ConfiguracoesParaColetaDeImoveis {
 
 	private static final Boolean SIMULAR = false;
-	private static final Boolean TURBO = false;
+	private static final Boolean TURBO = true;
 
 	public String obterUriInicial() {
 		return SIMULAR ? "file:///home/lucas/projetos/devedoresDaReceita/html/inicio.html" : "https://sncr.serpro.gov.br";
@@ -55,7 +55,7 @@ public class ConfiguracoesParaColetaDeImoveis {
 	}
 
 	public Integer obterTempoDeDescansoAntesDeFechar() {
-		return 30;
+		return 10;
 	}
 
 	public Integer obterIdiceDaOpcaoSr() {
@@ -79,7 +79,7 @@ public class ConfiguracoesParaColetaDeImoveis {
 	}
 
 	public By obterSeletorDoCampoCpfCnpj() {
-		return By.id("formConsultarDeclaracao:input-filtro-cpf-cnpj-titular");
+		return By.id("formConsultarDeclaracao:inputCpfCnpjTitular");
 	}
 
 	public By obterSeletorDoCarregamentoDaBuscaDoDevedor() {

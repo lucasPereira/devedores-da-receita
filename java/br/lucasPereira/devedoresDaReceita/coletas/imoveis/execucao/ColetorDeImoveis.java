@@ -1,9 +1,17 @@
 package br.lucasPereira.devedoresDaReceita.coletas.imoveis.execucao;
 
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -42,28 +50,74 @@ public class ColetorDeImoveis {
 	private Dorminhoco dorminhoco;
 	private String nomeDaColetaDeDevedores;
 	private Integer primeiroIndice;
-	private int ultimoIndice;
+	private Boolean continuarBuscando;
 
 	public ColetorDeImoveis() {
+		JFrame janela = new JFrame("Coleta de imóveis de devedores da receita");
+		JPanel painelGeral = new JPanel();
+		JButton botaoFechar = new JButton("Parar coleta [?]");
+		JLabel textoFechar = new JLabel("Aguarde alguns segundos até o programa salvar as consultas e ser encerrado.");
+		botaoFechar.setToolTipText("Ao parar a coleta as consultas serão salvas e o programa será encerrado. Quando o programa for iniciado novamente a coleta retomará do ponto onde parou.");
+		painelGeral.add(botaoFechar);
+		painelGeral.add(textoFechar);
+		textoFechar.setVisible(false);
+		painelGeral.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 25));
+		janela.add(painelGeral);
+		janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		janela.pack();
+		janela.setAlwaysOnTop(true);
+		janela.setLocation(0, 0);
+		janela.setVisible(true);
+		botaoFechar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent evento) {
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						textoFechar.setVisible(true);
+						janela.pack();
+					}
+
+				}).start();
+				continuarBuscando = false;
+			}
+
+		});
 		try {
+			continuarBuscando = true;
+			dorminhoco = new Dorminhoco();
+			devedoresComImoveisColetados = new LinkedList<>();
 			configuracoes = new ConfiguracoesParaColetaDeImoveis();
 			obterColeta();
-			devedoresComImoveisColetados = new LinkedList<>();
-			dorminhoco = new Dorminhoco();
 			acessarPagina();
 			autenticar();
 			coletar();
-			persistirColetaCsv();
-			persistirColetaSer();
-			fecharPagina();
 		} catch (Exception excecao) {
-			JOptionPane.showMessageDialog(null, String.format("Ocorreu um erro durante a coleta: %s. Encerrando sistema.", excecao.getMessage()));
-			System.exit(0);
+			excecao.printStackTrace();
+			JOptionPane.showMessageDialog(null, String.format("Ocorreu um erro. As consultas já realizadas serão salvas e o sistema será encerrado.\n\n%s", excecao.getMessage()));
+		} finally {
+			if (devedoresComImoveisColetados.size() > 0) {
+				try {
+					persistirColetaCsv();
+					persistirColetaSer();
+				} catch (Exception excecao) {
+					excecao.printStackTrace();
+					JOptionPane.showMessageDialog(null, String.format("Ocorreu um erro grave. Não tente executar novamente o programa.\n\n%s", excecao.getMessage()));
+				}
+			}
+			try {
+				fecharPagina();
+			} catch (Exception excecao) {
+				excecao.printStackTrace();
+			} finally {
+				System.exit(0);
+			}
 		}
 	}
 
 	private void obterColeta() {
-		Integer quantidadeDeDevedoresPorColeta = configuracoes.obterQuantidadeDeDevedoresPorColeta();
 		nomeDaColetaDeDevedores = configuracoes.obterNomeDaColetaDeDevedores();
 		String nomeDaColetaDeImoveis = configuracoes.obterNomeDaColetaDeImoveis();
 		ColetaDeDevedores coletaDeDevedores = new LeitorDeColetaDeDevedores(nomeDaColetaDeDevedores).carregar();
@@ -71,13 +125,8 @@ public class ColetorDeImoveis {
 		List<Devedor> todosDevedores = coletaDeDevedores.obterDevedores();
 		Integer quantidadeTotalDeDevedores = todosDevedores.size();
 		primeiroIndice = coletaDeImoveis.obterUltimoIndiceDaColetaDeDevedores();
-		ultimoIndice = primeiroIndice + quantidadeDeDevedoresPorColeta;
-		ultimoIndice = (ultimoIndice > quantidadeTotalDeDevedores) ? quantidadeTotalDeDevedores : ultimoIndice;
-		System.out.println(quantidadeDeDevedoresPorColeta);
-		System.out.println(primeiroIndice);
-		System.out.println(ultimoIndice);
-		if (primeiroIndice >= 0 && primeiroIndice < quantidadeTotalDeDevedores && ultimoIndice > primeiroIndice && ultimoIndice <= quantidadeTotalDeDevedores) {
-			devedores = todosDevedores.subList(primeiroIndice, ultimoIndice);
+		if (primeiroIndice >= 0 && primeiroIndice < quantidadeTotalDeDevedores) {
+			devedores = todosDevedores.subList(primeiroIndice, quantidadeTotalDeDevedores);
 		} else {
 			JOptionPane.showMessageDialog(null, "A coleta já foi realizada para todos os devedores. Encerrando sistema.");
 			System.exit(0);
@@ -95,7 +144,7 @@ public class ColetorDeImoveis {
 		do {
 			Integer descanso = configuracoes.obterTempoDeDescansoEntreVerificacoesDeAutenticacao();
 			dorminhoco.descansarSegundos(descanso);
-		} while (!estaAutenticado());
+		} while (!estaAutenticado() && continuarBuscando);
 	}
 
 	private Boolean estaAutenticado() {
@@ -106,7 +155,9 @@ public class ColetorDeImoveis {
 
 	private void coletar() {
 		System.out.println("Iniciando coleta.");
-		for (Devedor devedor : devedores) {
+		Iterator<Devedor> iterador = devedores.iterator();
+		while (iterador.hasNext() && continuarBuscando) {
+			Devedor devedor = iterador.next();
 			buscarImoveis(devedor);
 			coletarImoveis(devedor);
 		}
@@ -194,7 +245,7 @@ public class ColetorDeImoveis {
 
 	private void persistirColetaSer() {
 		System.out.println("Persistindo coleta.");
-		ColetaDeImoveis coleta = new ColetaDeImoveis(nomeDaColetaDeDevedores, primeiroIndice, ultimoIndice, devedoresComImoveisColetados);
+		ColetaDeImoveis coleta = new ColetaDeImoveis(nomeDaColetaDeDevedores, primeiroIndice, primeiroIndice + devedoresComImoveisColetados.size(), devedoresComImoveisColetados);
 		new EscritorDeColetaDeImoveisSer(new NomeadorDataHorario(new NomeadorSer(new NomeadorConcreto()), "imoveis")).salvar(coleta);
 		new EscritorDeColetaDeImoveisSer(new NomeadorIdentificador(new NomeadorSer(new NomeadorConcreto()), "imoveis")).salvar(coleta);
 	}
