@@ -17,7 +17,7 @@ public class ConfiguracoesDeColetaDeDevedores {
 	}
 
 	public Integer obterTempoMaximoDeEsperaDaPaginaEmSegundos() {
-		return 10;
+		return 60;
 	}
 
 	public String obterIdentificadorDoRadioFaixaDeValores() {
@@ -90,6 +90,10 @@ public class ConfiguracoesDeColetaDeDevedores {
 
 	public Integer obterTempoDeEsperaEmSegundosAntesDeFecharAPagina() {
 		return 30;
+	}
+
+	public Integer obterUltimaPaginaConsultada() {
+		return 3214 + 417 + 282;
 	}
 
 }

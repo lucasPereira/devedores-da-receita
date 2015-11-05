@@ -1,7 +1,9 @@
 package br.lucasPereira.devedoresDaReceita.coletas.devedores.execucao;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -31,7 +33,7 @@ public class ColetorDeDevedores {
 	private ConfiguracoesDeColetaDeDevedores configuracoes;
 
 	public ColetorDeDevedores() {
-		devedores = new LinkedList<>();
+		devedores = new ArrayList<>();
 		configuracoes = new ConfiguracoesDeColetaDeDevedores();
 		faixaDeValores = configuracoes.obterValorDaFaixaDeValores();
 		acessarPagina();
@@ -53,12 +55,39 @@ public class ColetorDeDevedores {
 	private void coletar() {
 		System.out.println("Iniciando coleta de devedores.");
 		try {
+			entrarNaPaginaDeOndeParou();
 			do {
 				coletarDevedores();
-			} while (existemDevedores());
+			} while (entrarNaProximaPagina());
 		} catch (Exception excecao) {
 			excecao.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Problema.");
 		}
+	}
+
+	private void entrarNaPaginaDeOndeParou() {
+		Integer ultimaPaginaConsultada = configuracoes.obterUltimaPaginaConsultada();
+		if (ultimaPaginaConsultada >= 10) {
+			Integer paginaAtual = 10;
+			entrarNaUltipaPaginaPossivel();
+			while (paginaAtual < ultimaPaginaConsultada) {
+				if ((paginaAtual + 4) <= ultimaPaginaConsultada) {
+					entrarNaUltipaPaginaPossivel();
+					paginaAtual += 4;
+				} else {
+					entrarNaProximaPagina();
+					paginaAtual++;
+				}
+			}
+		}
+	}
+
+	private void entrarNaUltipaPaginaPossivel() {
+		By seletorTabelaPaginacao = By.id(configuracoes.obterIdentificadorDaTabelaPaginacao());
+		WebElement tabelaPaginacao = selenium.findElement(seletorTabelaPaginacao);
+		List<WebElement> paginas = tabelaPaginacao.findElements(By.cssSelector("td.rich-datascr-inact"));
+		paginas.get(paginas.size() - 1).click();
+		aguardaPainelDeEsperaSumir();
 	}
 
 	private Boolean digitouCaptchaIncorretamente() {
@@ -97,7 +126,7 @@ public class ColetorDeDevedores {
 		aguardaPainelDeEsperaSumir();
 	}
 
-	private Boolean existemDevedores() {
+	private Boolean entrarNaProximaPagina() {
 		System.out.println("Verificando se existem mais páginas de devedores.");
 		By seletorTabelaPaginacao = By.id(configuracoes.obterIdentificadorDaTabelaPaginacao());
 		WebElement tabelaPaginacao = selenium.findElement(seletorTabelaPaginacao);

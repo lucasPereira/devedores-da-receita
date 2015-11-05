@@ -3,7 +3,7 @@ package br.lucasPereira.devedoresDaReceita.modelo;
 import java.io.Serializable;
 import java.util.List;
 
-public class Devedor implements Serializable {
+public class Devedor implements Comparable<Devedor>, Serializable {
 
 	private static final long serialVersionUID = 9136874723953432670L;
 
@@ -37,6 +37,10 @@ public class Devedor implements Serializable {
 		return valor;
 	}
 
+	public Long obterValorDaDividaInteiro() {
+		return Long.parseLong(obterValorDaDividaDecimal().replaceAll("[,][0-9][0-9]", ""));
+	}
+
 	public String obterValorDaDividaDecimal() {
 		return valor.replaceAll("[^0-9,]", "");
 	}
@@ -47,6 +51,25 @@ public class Devedor implements Serializable {
 
 	public String obterIdentificadorApenasComNumeros() {
 		return cpf.replaceAll("[^0-9]", "");
+	}
+
+	@Override
+	public boolean equals(Object objeto) {
+		if (objeto instanceof Devedor) {
+			Devedor outro = (Devedor) objeto;
+			return cpf.equals(outro.cpf) && nome.equals(nome) && valor.equals(valor);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return cpf.hashCode();
+	}
+
+	@Override
+	public int compareTo(Devedor outro) {
+		return obterValorDaDividaInteiro().compareTo(outro.obterValorDaDividaInteiro());
 	}
 
 }
