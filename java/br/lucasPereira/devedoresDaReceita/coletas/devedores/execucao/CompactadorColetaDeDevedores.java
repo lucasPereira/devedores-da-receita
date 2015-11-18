@@ -8,11 +8,13 @@ import java.util.Set;
 
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.ColetaDeDevedores;
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.EscritorDeColetaDeDevedoresCsv;
+import br.lucasPereira.devedoresDaReceita.coletas.devedores.EscritorDeColetaDeDevedoresSer;
 import br.lucasPereira.devedoresDaReceita.coletas.devedores.LeitorDeColetaDeDevedores;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.Nomeador;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorConcreto;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorCsv;
 import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorIdentificador;
+import br.lucasPereira.devedoresDaReceita.infraestrutura.arquivos.NomeadorSer;
 import br.lucasPereira.devedoresDaReceita.modelo.Devedor;
 
 public class CompactadorColetaDeDevedores {
@@ -32,8 +34,10 @@ public class CompactadorColetaDeDevedores {
 		List<Devedor> devedoresOrdenados = new ArrayList<>(devedores);
 		Collections.sort(devedoresOrdenados);
 		Collections.reverse(devedoresOrdenados);
-		Nomeador nomeador = new NomeadorIdentificador(new NomeadorCsv(new NomeadorConcreto()), "devedores_entre_1_milhao_e_10_milhoes");
-		new EscritorDeColetaDeDevedoresCsv(nomeador).salvar(devedoresOrdenados);;
+		Nomeador nomeadorCsv = new NomeadorIdentificador(new NomeadorCsv(new NomeadorConcreto()), "devedores_entre_1_milhao_e_10_milhoes");
+		Nomeador nomeadorSer = new NomeadorIdentificador(new NomeadorSer(new NomeadorConcreto()), "devedores_entre_1_milhao_e_10_milhoes");
+		new EscritorDeColetaDeDevedoresCsv(nomeadorCsv).salvar(devedoresOrdenados);
+		new EscritorDeColetaDeDevedoresSer(nomeadorSer).salvar(new ColetaDeDevedores(coleta1.obterFaixaDeValores(), devedoresOrdenados));
 	}
 
 }

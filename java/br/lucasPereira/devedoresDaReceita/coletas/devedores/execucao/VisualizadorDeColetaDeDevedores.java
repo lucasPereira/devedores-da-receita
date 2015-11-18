@@ -9,7 +9,7 @@ public class VisualizadorDeColetaDeDevedores {
 	private String nomeDoArquivo;
 
 	public static void main(String[] args) {
-		new VisualizadorDeColetaDeDevedores("ser/devedores_2015.07.27_02.56.ser").visualizar();
+		new VisualizadorDeColetaDeDevedores("ser/devedores_entre_1_milhao_e_10_milhoes.ser").visualizar();
 	}
 
 	public VisualizadorDeColetaDeDevedores(String nomeDoArquivo) {
@@ -18,14 +18,13 @@ public class VisualizadorDeColetaDeDevedores {
 
 	public void visualizar() {
 		ColetaDeDevedores coleta = new LeitorDeColetaDeDevedores(nomeDoArquivo).carregar();
-		System.out.println(coleta.obterFaixaDeValores());
-		System.out.println();
 		for (Devedor devedor : coleta.obterDevedores()) {
 			System.out.println(devedor.obterIdentificador());
 			System.out.println(devedor.obterNome());
 			System.out.println(devedor.obterValorDaDivida());
 			System.out.println();
 		}
+		System.out.println(coleta.obterFaixaDeValores());
 		System.out.println(coleta.obterDevedores().size());
 	}
 

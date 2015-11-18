@@ -18,7 +18,7 @@ public class ConfiguracoesParaColetaDeImoveis {
 	}
 
 	public String obterNomeDaColetaDeDevedores() {
-		return "ser/devedores_2015.07.27_02.56.ser";
+		return "ser/devedores_entre_1_milhao_e_10_milhoes.ser";
 	}
 
 	public String obterNomeDaColetaDeImoveis() {
